@@ -1,0 +1,25 @@
+//
+// File created by:  irun
+// Do not modify this file
+//
+-XLMODE
+./INCA_libs/irun.lnx8664.15.20.nc
+-RUNMODE
+-INCDIR
+../arch_specs/
+-sv
+../rtl/ffdif.sv
+../rtl/ffdiv_32bit.sv
+../rtl/ffdiv_decoder.sv
+../rtl/ffdiv_top.sv
+../tb/ffdiv_32bit_tb.sv
+-NOCOPYRIGHT
+-CDSLIB
+./INCA_libs/irun.lnx8664.15.20.nc/cdsrun.lib
+-HDLVAR
+./INCA_libs/irun.lnx8664.15.20.nc/hdlrun.var
+-MESSAGES
+-UPDATE
+-XLLIBSTORE
+./INCA_libs/irun.lnx8664.15.20.nc/xllibs
+-ALLOWUNBOUND

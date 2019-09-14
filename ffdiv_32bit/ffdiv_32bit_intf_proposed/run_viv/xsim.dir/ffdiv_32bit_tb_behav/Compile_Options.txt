@@ -1,0 +1,1 @@
+--lib "ffdiv_32bit_tb_lib" --snapshot "ffdiv_32bit_tb_behav" "ffdiv_32bit_tb_lib.ffdiv_32bit_tb" --timescale "1ns/1ns" --nolog 

@@ -1,0 +1,36 @@
+//
+// File created by:  irun
+// Do not modify this file
+//
+-access
++rwc
++fsmdebug
+-disable_sem2009
+-timescale
+1ns/1ns
+-incdir
+../arch_specs/
+-sv
+../rtl/ffdif.sv
+../rtl/ffdiv_32bit.sv
+../rtl/ffdiv_decoder.sv
+../rtl/ffdiv_top.sv
+-sysv
+../tb/ffdiv_32bit_tb.sv
+-covfile
+coverage/ffdiv_top_cov.ccf
+-input
+script/ffdiv_32bit_tb.tcl
+-coverage
+A
+-covdut
+ffdiv_32bit_tb
+-covoverwrite
+-covtest
+ffdiv_32bit_tb_test
+-date
+-clean
+-nocopyright
+-nohistory
+-nolog
+-stats

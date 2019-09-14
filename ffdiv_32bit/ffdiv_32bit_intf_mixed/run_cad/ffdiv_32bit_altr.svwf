@@ -1,0 +1,118 @@
+
+#
+# Mnemonic Maps
+#
+mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.rst_n}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.en}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.flag[4:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.result[31:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.ready}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.operand1[31:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.operand2[31:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {signed(ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.unb_exp1)}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {signed(ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.unb_exp2)}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.itr_count[4:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.sgfnd1[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.sgfnd2[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {signed(ffdiv_32bit_tb.ffdiv32bit.divider.ffdiv_unb_exp)}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.divider.ffdiv_sgfcnd_cmp}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.decoder.dec_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.dec_valid}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.divider.ffdiv_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.divider.qnt_diff[31:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.divider.prev_qnt[31:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.divider.qnt_i[31:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.divider.div_i[31:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.divider.qnt_rounded[24:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.divider.ffdiv_dnrm_frc_shift[4:0]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.sign}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.exp[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.frac[22:0]}]}
+	} ]]
+waveform format $id -radix %b
+
+waveform xview limits 4016ns 4096ns

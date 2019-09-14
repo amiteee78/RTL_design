@@ -1,0 +1,13 @@
+//
+// File created by:  irun
+// Do not modify this file
+//
+-INPUT
+script/ffdiv_32bit_tb.tcl
+-COVERAGE
+A
+-COVOVERWRITE
+-COVTEST
+ffdiv_32bit_tb_test
+-NOCOPYRIGHT
+-MESSAGES

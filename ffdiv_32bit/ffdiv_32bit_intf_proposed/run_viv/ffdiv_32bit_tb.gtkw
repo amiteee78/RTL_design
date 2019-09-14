@@ -1,0 +1,58 @@
+[*]
+[*] GTKWave Analyzer v3.3.86 (w)1999-2017 BSI
+[*] Wed Sep  4 18:12:54 2019
+[*]
+[dumpfile] "/home/ashuvo/Design/ffdiv_32bit/run/ffdiv_32bit_tb.vcd"
+[dumpfile_mtime] "Wed Sep  4 18:10:10 2019"
+[dumpfile_size] 303140
+[savefile] "/home/ashuvo/Design/ffdiv_32bit/run/ffdiv_32bit_tb.gtkw"
+[timestart] 0
+[size] 1366 704
+[pos] -1 -1
+*-3.640577 7430 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] ffdiv_32bit_tb.
+[treeopen] ffdiv_32bit_tb.ffdiv32bit.
+[treeopen] ffdiv_32bit_tb.ffdiv32bit.decoder.dec_bus.
+[treeopen] ffdiv_32bit_tb.ffdiv32bit.divider.div_bus.
+[sst_width] 48
+[signals_width] 174
+[sst_expanded] 0
+[sst_vpaned_height] 180
+@28
+ffdiv_32bit_tb.ffdiv32bit.tbus.top_bus.clk
+ffdiv_32bit_tb.ffdiv32bit.tbus.top_bus.rst_n
+ffdiv_32bit_tb.ffdiv32bit.tbus.top_bus.en
+ffdiv_32bit_tb.ffdiv32bit.tbus.top_bus.operand1[31:0]
+ffdiv_32bit_tb.ffdiv32bit.tbus.top_bus.operand2[31:0]
+ffdiv_32bit_tb.ffdiv32bit.tbus.top_bus.ready
+ffdiv_32bit_tb.ffdiv32bit.tbus.top_bus.flag[4:0]
+ffdiv_32bit_tb.ffdiv32bit.tbus.top_bus.result[31:0]
+ffdiv_32bit_tb.ffdiv32bit.decoder.dec_state
+ffdiv_32bit_tb.ffdiv32bit.decoder.dec_bus.decode_bus.dec_valid
+ffdiv_32bit_tb.ffdiv32bit.decoder.dec_bus.decode_bus.sgfnd1[23:0]
+ffdiv_32bit_tb.ffdiv32bit.decoder.dec_bus.decode_bus.sgfnd2[23:0]
+@420
+ffdiv_32bit_tb.ffdiv32bit.decoder.dec_bus.decode_bus.unb_exp1[8:0]
+ffdiv_32bit_tb.ffdiv32bit.decoder.dec_bus.decode_bus.unb_exp2[8:0]
+@200
+-
+@28
+ffdiv_32bit_tb.ffdiv32bit.divider.qnt_diff[47:0]
+ffdiv_32bit_tb.ffdiv32bit.divider.prev_qnt[47:0]
+ffdiv_32bit_tb.ffdiv32bit.divider.qnt_i[47:0]
+ffdiv_32bit_tb.ffdiv32bit.divider.div_i[47:0]
+ffdiv_32bit_tb.ffdiv32bit.divider.qnt_rounded[24:0]
+@420
+ffdiv_32bit_tb.ffdiv32bit.divider.ffdiv_unb_exp[8:0]
+@200
+-
+@28
+ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.sign
+@24
+ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.exp[7:0]
+@29
+ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.frac[22:0]
+@24
+ffdiv_32bit_tb.ffdiv32bit.ffdiv_bus.itr_count[4:0]
+[pattern_trace] 1
+[pattern_trace] 0
