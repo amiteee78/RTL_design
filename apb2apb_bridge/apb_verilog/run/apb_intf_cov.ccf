@@ -1,0 +1,9 @@
+select_coverage -bet -module worklib.apb_intf_tb
+set_expr_scoring -control
+set_expr_coverable_operators -event
+set_expr_coverable_statements -all
+set_covergroup -per_instance_default_one
+set_covergroup -new_instance_reporting
+set_fsm_scoring -hold_transition
+select_coverage -bet -file apb_intf_tb.sv
+select_functional

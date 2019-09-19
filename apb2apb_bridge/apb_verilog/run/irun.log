@@ -1,0 +1,29 @@
+irun(64): 15.20-s060: (c) Copyright 1995-2018 Cadence Design Systems, Inc.
+TOOL:	irun(64)	15.20-s060: Started on Sep 19, 2019 at 17:09:25 +06
+irun
+	-access +rwc
+	+fsmdebug
+	-disable_sem2009
+	-timescale 1ns/1ns
+	-incdir ../rtl/
+	-incdir ../tb/
+	-sv
+	../rtl/apb_interface.v
+	../rtl/apb_master.v
+	../rtl/apb_slave.v
+	-sysv
+	../tb/apb_intf_tb.sv
+	-covfile apb_intf_cov.ccf
+	-coverage A
+	-covdut apb_intf_tb
+	-covoverwrite
+	-covtest apb_intf_test
+
+Trying to check out license...
+	Incisive_HDL_Simulator 15.20 - Failed
+	Xcelium_Limited_Single_Core 16.00 - Failed
+	Incisive_Enterprise_Simulator 15.20 - Failed
+	Incisive_Enterprise_Verifier 15.20 - Failed
+	Xcelium_Single_Core 16.00 - Failed
+ncsim: *F,NOLICN: Unable to checkout license for the simulation. (flag - 2) 'lic_error -18'.
+TOOL:	irun(64)	15.20-s060: Exiting on Sep 19, 2019 at 17:09:25 +06  (total: 00:00:00)

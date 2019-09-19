@@ -71,78 +71,78 @@ interface ffdif (
 
   modport decode_bus (
 
-  input     clk,    
-  input     rst_n,  
-  input     en,
+    input     clk,    
+    input     rst_n,  
+    input     en,
 
-  input     operand1,
-  input     operand2,
+    input     operand1,
+    input     operand2,
 
-  input     ready,
+    input     ready,
 
-  output    sign1,
-  output    sign2,
+    output    sign1,
+    output    sign2,
 
-  output    unb_exp1,
-  output    unb_exp2,
+    output    unb_exp1,
+    output    unb_exp2,
 
-  output    sgfnd1,
-  output    sgfnd2,
+    output    sgfnd1,
+    output    sgfnd2,
 
-  output    is_denorm1,
-  output    is_denorm2,
+    output    is_denorm1,
+    output    is_denorm2,
 
-  output    is_norm1,
-  output    is_norm2,         
+    output    is_norm1,
+    output    is_norm2,         
 
-  output    res_nan,
-  output    res_indet,
-  output    res_inf,
-  output    res_zero,
+    output    res_nan,
+    output    res_indet,
+    output    res_inf,
+    output    res_zero,
 
-  output    dec_valid
+    output    dec_valid
 
   );
 
   modport division_bus (
 
-  input     clk,    
-  input     rst_n,  
-  input     en,
+    input     clk,    
+    input     rst_n,  
+    input     en,
 
-  output    ready,
+    output    ready,
 
-  input     sign1,
-  input     sign2,
+    input     sign1,
+    input     sign2,
 
-  input     unb_exp1,
-  input     unb_exp2,
+    input     unb_exp1,
+    input     unb_exp2,
 
-  input     sgfnd1,
-  input     sgfnd2,
+    input     sgfnd1,
+    input     sgfnd2,
 
-  input     is_denorm1,
-  input     is_denorm2,
+    input     is_denorm1,
+    input     is_denorm2,
 
-  input     is_norm1,
-  input     is_norm2,         
+    input     is_norm1,
+    input     is_norm2,         
 
-  input     res_nan,
-  input     res_indet,
-  input     res_inf,
-  input     res_zero,
+    input     res_nan,
+    input     res_indet,
+    input     res_inf,
+    input     res_zero,
 
-  input     dec_valid,
+    input     dec_valid,
 
-  output    itr_count,
-  output    sign,
-  output    exp,
-  output    frac,
-  output    nanf,
-  output    ovf, 
-  output    inf, 
-  output    uf,  
-  output    zf
+    output    itr_count,
+    output    sign,
+    output    exp,
+    output    frac,
+    output    nanf,
+    output    ovf, 
+    output    inf, 
+    output    uf,  
+    output    zf
 
   );
 

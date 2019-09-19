@@ -1,0 +1,10 @@
+//
+// File created by:  irun
+// Do not modify this file
+//
+-COVERAGE
+A
+-COVOVERWRITE
+-COVTEST
+apb_intf_test
+-MESSAGES

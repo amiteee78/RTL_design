@@ -1,0 +1,48 @@
+`include "apb_arch.svh"
+
+interface apbif (
+
+    input   logic                       clk,    // Clock
+    input   logic                       rst_n,  // Asynchronous reset active low
+
+    input   logic                       start,
+
+    // Address & Data Channel
+    input   logic                       wr,
+    input   logic [`ADDR_WIDTH-1:0]     address,
+    input   logic [`DATA_WIDTH-1:0]     data_in,
+    output  logic [`DATA_WIDTH-1:0]     data_out
+
+  );
+
+  logic                     sel;
+  logic                     enable;
+  logic                     write;
+  logic [ADDR_WIDTH-1:0]    addr;
+  logic [DATA_WIDTH-1:0]    wdata;
+  logic                     ready;
+  logic                     slverr;
+  logic [DATA_WIDTH-1:0]    rdata;
+
+  modport master (
+
+    input    clk,    
+    input    rst_n,  
+    input    start,
+    // Address & Data Channel
+    input    wr,
+    input    address,
+    input    data_in,
+    output   data_out,
+    // APB Interface
+    output   sel,
+    output   enable,
+    output   write,
+    output   addr,
+    output   wdata,
+    input    ready,
+    input    slverr,
+    input    rdata  
+    );
+
+endinterface
