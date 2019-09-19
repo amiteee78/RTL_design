@@ -1,0 +1,10 @@
+0.6
+2018.2
+Jul 26 2018
+18:27:14
+/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/arch_specs/ffdiv_arch.svh,1568868220,verilog,,,,,,,,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/rtl/ffdif.sv,1568868220,systemVerilog,,/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/rtl/ffdiv_32bit.sv,/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/arch_specs/ffdiv_arch.svh,ffdif,,,../arch_specs/,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/rtl/ffdiv_32bit.sv,1568869441,systemVerilog,,/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/rtl/ffdiv_decoder.sv,/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/arch_specs/ffdiv_arch.svh,ffdiv_32bit,,,../arch_specs/,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/rtl/ffdiv_decoder.sv,1568868220,systemVerilog,,/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/rtl/ffdiv_top.sv,/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/arch_specs/ffdiv_arch.svh,ffdiv_decoder,,,../arch_specs/,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/rtl/ffdiv_top.sv,1568868220,systemVerilog,,/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/tb/ffdiv_32bit_tb.sv,/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/arch_specs/ffdiv_arch.svh,ffdiv_top,,,../arch_specs/,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/tb/ffdiv_32bit_tb.sv,1568869805,systemVerilog,,,/home/ashuvo/amit/github_repo/RTL_design/ffdiv_32bit/ffdiv_32bit_prop_binom/arch_specs/ffdiv_arch.svh,ffdiv_32bit_tb,,,../arch_specs/,,,,,

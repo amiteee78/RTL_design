@@ -1,6 +1,6 @@
 ## REGISTER TRANSFER LEVEL DESIGN
 --------------------------------
-### *FAST FLOATING POINT DIVISION*
+### *Fast Floating Point Division*
 - System Verilog for Design.
 - System Verilog for Verification.
 - Vivado Simulator.

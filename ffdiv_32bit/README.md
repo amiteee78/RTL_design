@@ -1,8 +1,9 @@
-## Fast FLoating Point Division
+## Fast Floating Point Division
 --------------------------------
 ### *Division Algorithms*
 - Binomial Expansion Theorem.
 - Modified Application of Binomial Expansion Theorem.
+- Combination of Both for Latency Improvement.
 
 ### *Advanced Features*
 - System Verilog for Hardware Description.
