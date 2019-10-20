@@ -23,9 +23,13 @@
 `endif
 
 `ifndef MEM_WIDTH
-  `define MEM_WIDTH 32
+  `define MEM_WIDTH 8
 `endif
 
 `ifndef MEM_DEPTH
-  `define MEM_DEPTH 4
+  `define MEM_DEPTH `DATA_WIDTH/`MEM_WIDTH
+`endif
+
+`ifndef STRB_SIZE
+  `define STRB_SIZE `MEM_DEPTH
 `endif

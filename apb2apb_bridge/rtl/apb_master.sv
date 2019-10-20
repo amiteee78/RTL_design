@@ -1,3 +1,35 @@
+/*
+APB Master Module is designed using Finite State Machine having 3 always block...
+  1. A sequential block to define the state register.
+  2. A combinational block to define the next state logic.
+  3. A combinational block to define the output logic.
+
+Binary encoding is used to define the transitions among three different states.
+
+----------------------------------*********************************************************-------------------------------------
+----------------------------------*  ***************************************************  *-------------------------------------
+----------------------------------*  **                                               **  *-------------------------------------
+----------------------------------*  **                Operating States               **  *-------------------------------------
+----------------------------------*  **                                               **  *-------------------------------------
+----------------------------------*  ***************************************************  *-------------------------------------
+----------------------------------*********************************************************-------------------------------------
+
+
+                 sel=0,en=0                    sel=1,en=0                                     sel=1,en=1                 
+  transfer = 0  ************  transfer = 1   *************                                   ************     ready = 0             
+**----------->> **        ** ------------->> **         ** --------------------------------> **        ** <<-----------**           
+**              **  IDLE  **                 **  SETUP  **                                   ** ACCESS **              ** 
+**------------- **        ** <<----**        **         ** <<---------------------------**-- **        ** -------------**                
+                ************       **        *************    transfer = 1, ready = 1    **  ************                  
+                                   **                                                    **                                            
+                                   **                                                    **
+                                   **                                                    **   
+                                   **                                                    **
+                                   **                                                    **
+                                   **----------------------------------------------------**
+                                                      transfer = 0, ready = 1
+*/
+
 `timescale 1ns/1ns
 `include "apb_arch.svh"
 
@@ -35,10 +67,9 @@ module apb_master (apbif.master mbus);
   begin
 
     unique case (m_state)
-    
       IDLE :
       begin
-        if (mbus.start & ~mbus.ready)
+        if (mbus.trnsfr)
         begin
           m_nxt_state     <= SETUP;
         end
@@ -56,11 +87,15 @@ module apb_master (apbif.master mbus);
 
       ACCESS :
       begin
-        if (mbus.ready)
+        if (mbus.ready & mbus.trnsfr)
+        begin
+          m_nxt_state     <= SETUP;
+        end
+
+        else if (mbus.ready & ~mbus.trnsfr)
         begin
           m_nxt_state     <= IDLE;
         end
-
         else
         begin
           m_nxt_state     <= ACCESS;
@@ -77,5 +112,66 @@ module apb_master (apbif.master mbus);
   /*  **                                               **  */
   /*  ***************************************************  */
   /*********************************************************/
+
+  always_comb 
+  begin
+    
+    unique case (m_state)
+      IDLE:
+      begin
+        mbus.sel      <= '0;
+        mbus.enable   <= '0;
+        mbus.write    <= '0;
+        mbus.strobe   <= '0;
+        mbus.addr     <= '0;
+        mbus.wdata    <= '0;
+      end
+
+      SETUP:
+      begin
+        mbus.sel      <= '1;
+        mbus.enable   <= '0;
+        mbus.addr     <= mbus.address;
+
+        priority case (1)
+          |mbus.data_in[`DATA_WIDTH-1:`DATA_WIDTH-`MEM_WIDTH]                : mbus.strobe <= `STRB_SIZE'hF;
+          |mbus.data_in[`DATA_WIDTH-`MEM_WIDTH-1:`DATA_WIDTH-2*`MEM_WIDTH]   : mbus.strobe <= `STRB_SIZE'h7;
+          |mbus.data_in[`DATA_WIDTH-2*`MEM_WIDTH-1:`DATA_WIDTH-3*`MEM_WIDTH] : mbus.strobe <= `STRB_SIZE'h3;
+          |mbus.data_in[`DATA_WIDTH-3*`MEM_WIDTH-1:`DATA_WIDTH-4*`MEM_WIDTH] : mbus.strobe <= `STRB_SIZE'h1;
+          ~(&mbus.data_in)                                                   : mbus.strobe <= `STRB_SIZE'h1;
+          
+        endcase
+
+        if (mbus.wr)
+        begin
+          mbus.write     <= '1;            //write transfer enable
+          mbus.wdata     <= mbus.data_in;  // write data
+        end
+
+        else
+        begin
+          mbus.write     <= '0;            //read transfer enable
+          mbus.wdata     <= '0;          
+        end
+      end
+
+      ACCESS:
+      begin
+        mbus.sel      <= '1;
+        mbus.enable   <= '1;
+
+        if (mbus.ready)
+        begin
+          mbus.data_out  <= mbus.rdata;
+        end
+
+        else
+        begin
+          mbus.data_out  <= '0;
+        end
+      end
+    endcase
+
+  end
 
 endmodule

@@ -11,12 +11,11 @@ module apb_bridge (apbif.bridge ibus);
   /*  ***************************************************  */
   /*********************************************************/
   apbif pbus (
-
     ibus.clk,
     ibus.rst_n,
-    ibus.start,
-    ibus.wr,
+    ibus.trnsfr,
 
+    ibus.wr,
     ibus.address,
     ibus.data_in,
     ibus.data_out
@@ -32,6 +31,5 @@ module apb_bridge (apbif.bridge ibus);
 
   apb_master pmaster (.mbus(pbus));
   apb_slave  pslave  (.sbus(pbus));
-
-
+  
 endmodule

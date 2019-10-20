@@ -3,7 +3,8 @@
 interface apbif (
     input   logic                       clk,    // Clock
     input   logic                       rst_n,  // Asynchronous reset active low
-    input   logic                       start,
+    input   logic                       start,  // Start of transfer
+    input   logic                       trnsfr, // Continue transfer
 
     // Address & Data Channel
     input   logic                       wr,
@@ -15,11 +16,12 @@ interface apbif (
   logic                     sel;
   logic                     enable;
   logic                     write;
-  logic [ADDR_WIDTH-1:0]    addr;
-  logic [DATA_WIDTH-1:0]    wdata;
+  logic [`STRB_SIZE-1:0]    strobe;
+  logic [`ADDR_WIDTH-1:0]   addr;
+  logic [`DATA_WIDTH-1:0]   wdata;
   logic                     ready;
   logic                     slverr;
-  logic [DATA_WIDTH-1:0]    rdata;
+  logic [`DATA_WIDTH-1:0]   rdata;
 
   /*********************************************************/
   /*  ***************************************************  */
@@ -31,7 +33,7 @@ interface apbif (
   modport bridge (
     input    clk,
     input    rst_n,
-    input    start,
+    input    trnsfr,
 
     // Address & Data Channel
     input    wr,
@@ -50,7 +52,8 @@ interface apbif (
   modport master (
     input    clk,    
     input    rst_n,  
-    input    start,
+    input    trnsfr,
+
     // Address & Data Channel (CPU)
     input    wr,
     input    address,
@@ -61,6 +64,7 @@ interface apbif (
     output   sel,
     output   enable,
     output   write,
+    output   strobe,
     output   addr,
     output   wdata,
 
@@ -79,7 +83,6 @@ interface apbif (
   modport slave (
     input    clk,    
     input    rst_n,  
-    input    start,
     // Address & Data Channel (Memory)
     output   wr,
     output   address,
@@ -89,6 +92,7 @@ interface apbif (
     input    sel,
     input    enable,
     input    write,
+    input    strobe,
     input    addr,
     input    wdata,
 
