@@ -4,6 +4,32 @@
 module apb_slave (apbif.slave sbus);
   enum logic [1:0] {IDLE, SETUP, ACCESS} s_state, s_nxt_state;
 
+  logic [`ADDR_WIDTH-1:0] addr_compare; // comparison register for maximum address
+
+  /*********************************************************/
+  /*  ***************************************************  */
+  /*  **                                               **  */
+  /*  **         Internal Register Definition          **  */
+  /*  **                                               **  */
+  /*  ***************************************************  */
+  /*********************************************************/
+  always_ff @(posedge sbus.clk or negedge sbus.rst_n) 
+  begin
+    if(~sbus.rst_n) 
+    begin
+      addr_compare   <= '0;
+    end 
+    else if (s_nxt_state == SETUP)
+    begin
+      priority case (1)
+        sbus.strobe[3] : addr_compare <= (sbus.addr+1)<<2;
+        sbus.strobe[2] : addr_compare <= ((sbus.addr+1)<<1) + sbus.addr;
+        sbus.strobe[1] : addr_compare <= (sbus.addr+1)<<1;
+        sbus.strobe[0] : addr_compare <= addr;
+      endcase
+    end
+  end
+
   /*********************************************************/
   /*  ***************************************************  */
   /*  **                                               **  */
@@ -106,9 +132,28 @@ module apb_slave (apbif.slave sbus);
       begin
         if (sbus.sel & sbus.enable)
         begin
-          sbus.ready    <= '1;
+          sbus.ready      <= '1;
 
-          if (sbus.addr < sbus.strobe*()) // needs to be edited
+          if (addr_compare > `MEM_BYTE)
+          begin
+            sbus.slverr   <= '1;
+            sbus.data_in  <= '0;
+            sbus.rdata    <= '0;
+          end
+
+          else if (sbus.write)
+          begin
+            sbus.slverr   <= '0;
+            sbus.data_in  <= sbus.wdata;
+            sbus.rdata    <= '0;
+          end
+
+          else
+          begin
+            sbus.slverr   <= '0;
+            sbus.data_in  <= '0;
+            sbus.rdata    <= sbus.data_out;
+          end
         end
 
         else

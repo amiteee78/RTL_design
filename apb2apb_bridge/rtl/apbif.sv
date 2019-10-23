@@ -3,7 +3,7 @@
 interface apbif (
     input   logic                       clk,    // Clock
     input   logic                       rst_n,  // Asynchronous reset active low
-    input   logic                       start,  // Start of transfer
+    input   logic                       strb,   // selection among byte/half word/word transfer
     input   logic                       trnsfr, // Continue transfer
 
     // Address & Data Channel
@@ -51,7 +51,8 @@ interface apbif (
   /*********************************************************/
   modport master (
     input    clk,    
-    input    rst_n,  
+    input    rst_n,
+    input    strb,  
     input    trnsfr,
 
     // Address & Data Channel (CPU)
@@ -86,8 +87,8 @@ interface apbif (
     // Address & Data Channel (Memory)
     output   wr,
     output   address,
-    output   data_in,
-    input    data_out,
+    output   data_in,  //name should be changed 
+    input    data_out, // name should be changed
     // APB Interface
     input    sel,
     input    enable,

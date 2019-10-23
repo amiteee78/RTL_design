@@ -132,16 +132,8 @@ module apb_master (apbif.master mbus);
         mbus.sel      <= '1;
         mbus.enable   <= '0;
         mbus.addr     <= mbus.address;
-
-        priority case (1)
-          |mbus.data_in[`DATA_WIDTH-1:`DATA_WIDTH-`MEM_WIDTH]                : mbus.strobe <= `STRB_SIZE'hF;
-          |mbus.data_in[`DATA_WIDTH-`MEM_WIDTH-1:`DATA_WIDTH-2*`MEM_WIDTH]   : mbus.strobe <= `STRB_SIZE'h7;
-          |mbus.data_in[`DATA_WIDTH-2*`MEM_WIDTH-1:`DATA_WIDTH-3*`MEM_WIDTH] : mbus.strobe <= `STRB_SIZE'h3;
-          |mbus.data_in[`DATA_WIDTH-3*`MEM_WIDTH-1:`DATA_WIDTH-4*`MEM_WIDTH] : mbus.strobe <= `STRB_SIZE'h1;
-          ~(&mbus.data_in)                                                   : mbus.strobe <= `STRB_SIZE'h1;
-          
-        endcase
-
+        mbus.strobe   <= mbus.strb;
+        
         if (mbus.wr)
         begin
           mbus.write     <= '1;            //write transfer enable

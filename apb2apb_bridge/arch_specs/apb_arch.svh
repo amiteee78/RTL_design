@@ -33,3 +33,7 @@
 `ifndef STRB_SIZE
   `define STRB_SIZE `MEM_DEPTH
 `endif
+
+`ifndef MEM_BYTE
+  `define MEM_BYTE `MEM_SIZE*`MEM_DEPTH // 1Kbyte Memory
+`endif
