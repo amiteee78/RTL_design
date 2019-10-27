@@ -125,6 +125,8 @@ module apb_master (apbif.master mbus);
         mbus.strobe   <= '0;
         mbus.addr     <= '0;
         mbus.wdata    <= '0;
+
+        mbus.data_out <= '0;
       end
 
       SETUP:
@@ -133,6 +135,8 @@ module apb_master (apbif.master mbus);
         mbus.enable   <= '0;
         mbus.addr     <= mbus.address;
         mbus.strobe   <= mbus.strb;
+
+        mbus.data_out <= '0;
         
         if (mbus.wr)
         begin

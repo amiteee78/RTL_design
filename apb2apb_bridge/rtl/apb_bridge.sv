@@ -13,12 +13,19 @@ module apb_bridge (apbif.bridge ibus);
   apbif pbus (
     ibus.clk,
     ibus.rst_n,
+    ibus.strb,
     ibus.trnsfr,
 
     ibus.wr,
     ibus.address,
     ibus.data_in,
-    ibus.data_out
+    ibus.data_out,
+
+    ibus.mem_wr,
+    ibus.mem_be,
+    ibus.mem_address,
+    ibus.mem_data_in,
+    ibus.mem_data_out
   );
 
   /*********************************************************/

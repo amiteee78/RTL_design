@@ -1,0 +1,11 @@
+0.6
+2018.2
+Jul 26 2018
+18:27:14
+/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/arch_specs/apb_arch.svh,1571830471,verilog,,,,,,,,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/rtl/apb_bridge.sv,1572174255,systemVerilog,,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/rtl/apbif.sv,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/arch_specs/apb_arch.svh,apb_bridge,,,../arch_specs/,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/rtl/apb_master.sv,1572176292,systemVerilog,,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/rtl/apb_mem.sv,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/arch_specs/apb_arch.svh,apb_master,,,../arch_specs/,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/rtl/apb_mem.sv,1572177258,systemVerilog,,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/rtl/apb_slave.sv,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/arch_specs/apb_arch.svh,apb_mem,,,../arch_specs/,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/rtl/apb_slave.sv,1571898215,systemVerilog,,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/tb/apb_bridge_tb.sv,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/arch_specs/apb_arch.svh,apb_slave,,,../arch_specs/,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/rtl/apbif.sv,1572174645,systemVerilog,,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/rtl/apb_master.sv,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/arch_specs/apb_arch.svh,apbif;memif,,,../arch_specs/,,,,,
+/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/tb/apb_bridge_tb.sv,1572168590,systemVerilog,,,/home/ashuvo/amit/github_repo/RTL_design/apb2apb_bridge/arch_specs/apb_arch.svh,apb_bridge_tb,,,../arch_specs/,,,,,

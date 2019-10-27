@@ -3,7 +3,7 @@
 interface apbif (
     input   logic                       clk,    // Clock
     input   logic                       rst_n,  // Asynchronous reset active low
-    input   logic                       strb,   // selection among byte/half word/word transfer
+    input   logic [`STRB_SIZE-1:0]      strb,   // selection among byte/half word/word transfer
     input   logic                       trnsfr, // Continue transfer
 
     // Address & Data Channel (APB Master)
@@ -14,6 +14,7 @@ interface apbif (
 
     // Address & Data Channel (Memory)
     output  logic                       mem_wr,
+    output  logic [`MEM_DEPTH-1:0]      mem_be,
     output  logic [`ADDR_WIDTH-1:0]     mem_address,
     output  logic [`DATA_WIDTH-1:0]     mem_data_in,
     input   logic [`DATA_WIDTH-1:0]     mem_data_out    
@@ -39,6 +40,7 @@ interface apbif (
   modport bridge (
     input    clk,
     input    rst_n,
+    input    strb,
     input    trnsfr,
 
     // Address & Data Channel (CPU)
@@ -49,6 +51,7 @@ interface apbif (
 
     // Address & Data Channel (Memory)
     output   mem_wr,
+    output   mem_be,
     output   mem_address,
     output   mem_data_in,
     input    mem_data_out  
@@ -98,6 +101,7 @@ interface apbif (
     input    rst_n,  
     // Address & Data Channel (Memory)
     output   mem_wr,
+    output   mem_be,
     output   mem_address,
     output   mem_data_in,  //name should be changed 
     input    mem_data_out, // name should be changed
@@ -114,6 +118,19 @@ interface apbif (
     output   rdata  
   );
 
+endinterface
+
+interface memif (
+    input   logic                       clk,
+    input   logic                       rst_n,
+    // Memory Access
+    input   logic                       mem_wr,
+    input   logic [`MEM_DEPTH-1:0]      mem_be,
+    input   logic [`ADDR_WIDTH-1:0]     mem_address,
+    input   logic [`DATA_WIDTH-1:0]     mem_data_in,
+    output  logic [`DATA_WIDTH-1:0]     mem_data_out
+  );
+
   /*********************************************************/
   /*  ***************************************************  */
   /*  **                                               **  */
@@ -126,6 +143,7 @@ interface apbif (
     input  rst_n,
     // Memory Access
     input  mem_wr,
+    input  mem_be,
     input  mem_address,
     input  mem_data_in,
     output mem_data_out

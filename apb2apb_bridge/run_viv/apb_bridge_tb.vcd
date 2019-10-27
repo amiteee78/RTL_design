@@ -1,0 +1,916 @@
+$date
+   Sun Oct 27 17:54:42 2019
+$end
+$version
+  2018.2
+$end
+$timescale
+  1ns
+$end
+$scope module apb_bridge_tb $end
+$var reg 1 ! clk $end
+$var reg 1 " rst_n $end
+$var reg 4 # strb [3:0] $end
+$var reg 1 $ trnsfr $end
+$var reg 1 % wr $end
+$var reg 32 & address [31:0] $end
+$var reg 32 ' data_in [31:0] $end
+$var reg 32 ( data_out [31:0] $end
+$var reg 1 ) mem_wr $end
+$var reg 4 * mem_be [3:0] $end
+$var reg 32 + mem_address [31:0] $end
+$var reg 32 , mem_data_in [31:0] $end
+$var reg 32 - mem_data_out [31:0] $end
+$scope module test_bus $end
+$var wire 1 . clk $end
+$var wire 1 / rst_n $end
+$var wire 4 0 strb [3:0] $end
+$var wire 1 1 trnsfr $end
+$var wire 1 2 wr $end
+$var wire 32 3 address [31:0] $end
+$var wire 32 4 data_in [31:0] $end
+$var reg 32 ( data_out [31:0] $end
+$var reg 1 ) mem_wr $end
+$var reg 4 * mem_be [3:0] $end
+$var reg 32 + mem_address [31:0] $end
+$var reg 32 , mem_data_in [31:0] $end
+$var wire 32 5 mem_data_out [31:0] $end
+$var reg 1 6 sel $end
+$var reg 1 7 enable $end
+$var reg 1 8 write $end
+$var reg 4 9 strobe [3:0] $end
+$var reg 32 : addr [31:0] $end
+$var reg 32 ; wdata [31:0] $end
+$var reg 1 < ready $end
+$var reg 1 = slverr $end
+$var reg 32 > rdata [31:0] $end
+$scope module bridge $end
+$var wire 1 . clk $end
+$var wire 1 / rst_n $end
+$var wire 4 0 strb [3:0] $end
+$var wire 1 1 trnsfr $end
+$var wire 1 2 wr $end
+$var wire 32 3 address [31:0] $end
+$var wire 32 4 data_in [31:0] $end
+$var reg 32 ( data_out [31:0] $end
+$var reg 1 ) mem_wr $end
+$var reg 4 * mem_be [3:0] $end
+$var reg 32 + mem_address [31:0] $end
+$var reg 32 , mem_data_in [31:0] $end
+$var wire 32 5 mem_data_out [31:0] $end
+$upscope $end
+$scope module master $end
+$var wire 1 . clk $end
+$var wire 1 / rst_n $end
+$var wire 4 0 strb [3:0] $end
+$var wire 1 1 trnsfr $end
+$var wire 1 2 wr $end
+$var wire 32 3 address [31:0] $end
+$var wire 32 4 data_in [31:0] $end
+$var reg 32 ( data_out [31:0] $end
+$var reg 1 6 sel $end
+$var reg 1 7 enable $end
+$var reg 1 8 write $end
+$var reg 4 9 strobe [3:0] $end
+$var reg 32 : addr [31:0] $end
+$var reg 32 ; wdata [31:0] $end
+$var reg 1 < ready $end
+$var reg 1 = slverr $end
+$var reg 32 > rdata [31:0] $end
+$upscope $end
+$scope module slave $end
+$var wire 1 . clk $end
+$var wire 1 / rst_n $end
+$var reg 1 ) mem_wr $end
+$var reg 4 * mem_be [3:0] $end
+$var reg 32 + mem_address [31:0] $end
+$var reg 32 , mem_data_in [31:0] $end
+$var wire 32 5 mem_data_out [31:0] $end
+$var reg 1 6 sel $end
+$var reg 1 7 enable $end
+$var reg 1 8 write $end
+$var reg 4 9 strobe [3:0] $end
+$var reg 32 : addr [31:0] $end
+$var reg 32 ; wdata [31:0] $end
+$var reg 1 < ready $end
+$var reg 1 = slverr $end
+$var reg 32 > rdata [31:0] $end
+$upscope $end
+$upscope $end
+$scope module mem_bus $end
+$var wire 1 ? clk $end
+$var wire 1 @ rst_n $end
+$var wire 1 A mem_wr $end
+$var wire 4 B mem_be [3:0] $end
+$var wire 32 C mem_address [31:0] $end
+$var wire 32 D mem_data_in [31:0] $end
+$var reg 32 - mem_data_out [31:0] $end
+$scope module mem $end
+$var wire 1 ? clk $end
+$var wire 1 @ rst_n $end
+$var wire 1 A mem_wr $end
+$var wire 4 B mem_be [3:0] $end
+$var wire 32 C mem_address [31:0] $end
+$var wire 32 D mem_data_in [31:0] $end
+$var reg 32 - mem_data_out [31:0] $end
+$upscope $end
+$upscope $end
+$scope module apb2apb $end
+$scope module ibus $end
+$var wire 1 . clk $end
+$var wire 1 / rst_n $end
+$var wire 4 0 strb [3:0] $end
+$var wire 1 1 trnsfr $end
+$var wire 1 2 wr $end
+$var wire 32 3 address [31:0] $end
+$var wire 32 4 data_in [31:0] $end
+$var reg 32 ( data_out [31:0] $end
+$var reg 1 ) mem_wr $end
+$var reg 4 * mem_be [3:0] $end
+$var reg 32 + mem_address [31:0] $end
+$var reg 32 , mem_data_in [31:0] $end
+$var wire 32 5 mem_data_out [31:0] $end
+$var reg 1 6 sel $end
+$var reg 1 7 enable $end
+$var reg 1 8 write $end
+$var reg 4 9 strobe [3:0] $end
+$var reg 32 : addr [31:0] $end
+$var reg 32 ; wdata [31:0] $end
+$var reg 1 < ready $end
+$var reg 1 = slverr $end
+$var reg 32 > rdata [31:0] $end
+$scope module bridge $end
+$var wire 1 . clk $end
+$var wire 1 / rst_n $end
+$var wire 4 0 strb [3:0] $end
+$var wire 1 1 trnsfr $end
+$var wire 1 2 wr $end
+$var wire 32 3 address [31:0] $end
+$var wire 32 4 data_in [31:0] $end
+$var reg 32 ( data_out [31:0] $end
+$var reg 1 ) mem_wr $end
+$var reg 4 * mem_be [3:0] $end
+$var reg 32 + mem_address [31:0] $end
+$var reg 32 , mem_data_in [31:0] $end
+$var wire 32 5 mem_data_out [31:0] $end
+$upscope $end
+$scope module master $end
+$var wire 1 . clk $end
+$var wire 1 / rst_n $end
+$var wire 4 0 strb [3:0] $end
+$var wire 1 1 trnsfr $end
+$var wire 1 2 wr $end
+$var wire 32 3 address [31:0] $end
+$var wire 32 4 data_in [31:0] $end
+$var reg 32 ( data_out [31:0] $end
+$var reg 1 6 sel $end
+$var reg 1 7 enable $end
+$var reg 1 8 write $end
+$var reg 4 9 strobe [3:0] $end
+$var reg 32 : addr [31:0] $end
+$var reg 32 ; wdata [31:0] $end
+$var reg 1 < ready $end
+$var reg 1 = slverr $end
+$var reg 32 > rdata [31:0] $end
+$upscope $end
+$scope module slave $end
+$var wire 1 . clk $end
+$var wire 1 / rst_n $end
+$var reg 1 ) mem_wr $end
+$var reg 4 * mem_be [3:0] $end
+$var reg 32 + mem_address [31:0] $end
+$var reg 32 , mem_data_in [31:0] $end
+$var wire 32 5 mem_data_out [31:0] $end
+$var reg 1 6 sel $end
+$var reg 1 7 enable $end
+$var reg 1 8 write $end
+$var reg 4 9 strobe [3:0] $end
+$var reg 32 : addr [31:0] $end
+$var reg 32 ; wdata [31:0] $end
+$var reg 1 < ready $end
+$var reg 1 = slverr $end
+$var reg 32 > rdata [31:0] $end
+$upscope $end
+$upscope $end
+$scope module pbus $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var wire 4 G strb [3:0] $end
+$var wire 1 H trnsfr $end
+$var wire 1 I wr $end
+$var wire 32 J address [31:0] $end
+$var wire 32 K data_in [31:0] $end
+$var reg 32 L data_out [31:0] $end
+$var reg 1 M mem_wr $end
+$var reg 4 N mem_be [3:0] $end
+$var reg 32 O mem_address [31:0] $end
+$var reg 32 P mem_data_in [31:0] $end
+$var wire 32 Q mem_data_out [31:0] $end
+$var reg 1 R sel $end
+$var reg 1 S enable $end
+$var reg 1 T write $end
+$var reg 4 U strobe [3:0] $end
+$var reg 32 V addr [31:0] $end
+$var reg 32 W wdata [31:0] $end
+$var reg 1 X ready $end
+$var reg 1 Y slverr $end
+$var reg 32 Z rdata [31:0] $end
+$scope module bridge $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var wire 4 G strb [3:0] $end
+$var wire 1 H trnsfr $end
+$var wire 1 I wr $end
+$var wire 32 J address [31:0] $end
+$var wire 32 K data_in [31:0] $end
+$var reg 32 L data_out [31:0] $end
+$var reg 1 M mem_wr $end
+$var reg 4 N mem_be [3:0] $end
+$var reg 32 O mem_address [31:0] $end
+$var reg 32 P mem_data_in [31:0] $end
+$var wire 32 Q mem_data_out [31:0] $end
+$upscope $end
+$scope module master $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var wire 4 G strb [3:0] $end
+$var wire 1 H trnsfr $end
+$var wire 1 I wr $end
+$var wire 32 J address [31:0] $end
+$var wire 32 K data_in [31:0] $end
+$var reg 32 L data_out [31:0] $end
+$var reg 1 R sel $end
+$var reg 1 S enable $end
+$var reg 1 T write $end
+$var reg 4 U strobe [3:0] $end
+$var reg 32 V addr [31:0] $end
+$var reg 32 W wdata [31:0] $end
+$var reg 1 X ready $end
+$var reg 1 Y slverr $end
+$var reg 32 Z rdata [31:0] $end
+$upscope $end
+$scope module slave $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var reg 1 M mem_wr $end
+$var reg 4 N mem_be [3:0] $end
+$var reg 32 O mem_address [31:0] $end
+$var reg 32 P mem_data_in [31:0] $end
+$var wire 32 Q mem_data_out [31:0] $end
+$var reg 1 R sel $end
+$var reg 1 S enable $end
+$var reg 1 T write $end
+$var reg 4 U strobe [3:0] $end
+$var reg 32 V addr [31:0] $end
+$var reg 32 W wdata [31:0] $end
+$var reg 1 X ready $end
+$var reg 1 Y slverr $end
+$var reg 32 Z rdata [31:0] $end
+$upscope $end
+$upscope $end
+$scope module pmaster $end
+$var reg 2 [ m_state [1:0] $end
+$var reg 2 \ m_nxt_state [1:0] $end
+$scope module mbus $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var wire 4 G strb [3:0] $end
+$var wire 1 H trnsfr $end
+$var wire 1 I wr $end
+$var wire 32 J address [31:0] $end
+$var wire 32 K data_in [31:0] $end
+$var reg 32 L data_out [31:0] $end
+$var reg 1 M mem_wr $end
+$var reg 4 N mem_be [3:0] $end
+$var reg 32 O mem_address [31:0] $end
+$var reg 32 P mem_data_in [31:0] $end
+$var wire 32 Q mem_data_out [31:0] $end
+$var reg 1 R sel $end
+$var reg 1 S enable $end
+$var reg 1 T write $end
+$var reg 4 U strobe [3:0] $end
+$var reg 32 V addr [31:0] $end
+$var reg 32 W wdata [31:0] $end
+$var reg 1 X ready $end
+$var reg 1 Y slverr $end
+$var reg 32 Z rdata [31:0] $end
+$scope module bridge $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var wire 4 G strb [3:0] $end
+$var wire 1 H trnsfr $end
+$var wire 1 I wr $end
+$var wire 32 J address [31:0] $end
+$var wire 32 K data_in [31:0] $end
+$var reg 32 L data_out [31:0] $end
+$var reg 1 M mem_wr $end
+$var reg 4 N mem_be [3:0] $end
+$var reg 32 O mem_address [31:0] $end
+$var reg 32 P mem_data_in [31:0] $end
+$var wire 32 Q mem_data_out [31:0] $end
+$upscope $end
+$scope module master $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var wire 4 G strb [3:0] $end
+$var wire 1 H trnsfr $end
+$var wire 1 I wr $end
+$var wire 32 J address [31:0] $end
+$var wire 32 K data_in [31:0] $end
+$var reg 32 L data_out [31:0] $end
+$var reg 1 R sel $end
+$var reg 1 S enable $end
+$var reg 1 T write $end
+$var reg 4 U strobe [3:0] $end
+$var reg 32 V addr [31:0] $end
+$var reg 32 W wdata [31:0] $end
+$var reg 1 X ready $end
+$var reg 1 Y slverr $end
+$var reg 32 Z rdata [31:0] $end
+$upscope $end
+$scope module slave $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var reg 1 M mem_wr $end
+$var reg 4 N mem_be [3:0] $end
+$var reg 32 O mem_address [31:0] $end
+$var reg 32 P mem_data_in [31:0] $end
+$var wire 32 Q mem_data_out [31:0] $end
+$var reg 1 R sel $end
+$var reg 1 S enable $end
+$var reg 1 T write $end
+$var reg 4 U strobe [3:0] $end
+$var reg 32 V addr [31:0] $end
+$var reg 32 W wdata [31:0] $end
+$var reg 1 X ready $end
+$var reg 1 Y slverr $end
+$var reg 32 Z rdata [31:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module pslave $end
+$var reg 2 ] s_state [1:0] $end
+$var reg 2 ^ s_nxt_state [1:0] $end
+$var reg 32 _ addr_compare [31:0] $end
+$scope module sbus $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var wire 4 G strb [3:0] $end
+$var wire 1 H trnsfr $end
+$var wire 1 I wr $end
+$var wire 32 J address [31:0] $end
+$var wire 32 K data_in [31:0] $end
+$var reg 32 L data_out [31:0] $end
+$var reg 1 M mem_wr $end
+$var reg 4 N mem_be [3:0] $end
+$var reg 32 O mem_address [31:0] $end
+$var reg 32 P mem_data_in [31:0] $end
+$var wire 32 Q mem_data_out [31:0] $end
+$var reg 1 R sel $end
+$var reg 1 S enable $end
+$var reg 1 T write $end
+$var reg 4 U strobe [3:0] $end
+$var reg 32 V addr [31:0] $end
+$var reg 32 W wdata [31:0] $end
+$var reg 1 X ready $end
+$var reg 1 Y slverr $end
+$var reg 32 Z rdata [31:0] $end
+$scope module bridge $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var wire 4 G strb [3:0] $end
+$var wire 1 H trnsfr $end
+$var wire 1 I wr $end
+$var wire 32 J address [31:0] $end
+$var wire 32 K data_in [31:0] $end
+$var reg 32 L data_out [31:0] $end
+$var reg 1 M mem_wr $end
+$var reg 4 N mem_be [3:0] $end
+$var reg 32 O mem_address [31:0] $end
+$var reg 32 P mem_data_in [31:0] $end
+$var wire 32 Q mem_data_out [31:0] $end
+$upscope $end
+$scope module master $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var wire 4 G strb [3:0] $end
+$var wire 1 H trnsfr $end
+$var wire 1 I wr $end
+$var wire 32 J address [31:0] $end
+$var wire 32 K data_in [31:0] $end
+$var reg 32 L data_out [31:0] $end
+$var reg 1 R sel $end
+$var reg 1 S enable $end
+$var reg 1 T write $end
+$var reg 4 U strobe [3:0] $end
+$var reg 32 V addr [31:0] $end
+$var reg 32 W wdata [31:0] $end
+$var reg 1 X ready $end
+$var reg 1 Y slverr $end
+$var reg 32 Z rdata [31:0] $end
+$upscope $end
+$scope module slave $end
+$var wire 1 E clk $end
+$var wire 1 F rst_n $end
+$var reg 1 M mem_wr $end
+$var reg 4 N mem_be [3:0] $end
+$var reg 32 O mem_address [31:0] $end
+$var reg 32 P mem_data_in [31:0] $end
+$var wire 32 Q mem_data_out [31:0] $end
+$var reg 1 R sel $end
+$var reg 1 S enable $end
+$var reg 1 T write $end
+$var reg 4 U strobe [3:0] $end
+$var reg 32 V addr [31:0] $end
+$var reg 32 W wdata [31:0] $end
+$var reg 1 X ready $end
+$var reg 1 Y slverr $end
+$var reg 32 Z rdata [31:0] $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$scope module memory $end
+$scope module membus $end
+$var wire 1 ? clk $end
+$var wire 1 @ rst_n $end
+$var wire 1 A mem_wr $end
+$var wire 4 B mem_be [3:0] $end
+$var wire 32 C mem_address [31:0] $end
+$var wire 32 D mem_data_in [31:0] $end
+$var reg 32 - mem_data_out [31:0] $end
+$scope module mem $end
+$var wire 1 ? clk $end
+$var wire 1 @ rst_n $end
+$var wire 1 A mem_wr $end
+$var wire 4 B mem_be [3:0] $end
+$var wire 32 C mem_address [31:0] $end
+$var wire 32 D mem_data_in [31:0] $end
+$var reg 32 - mem_data_out [31:0] $end
+$upscope $end
+$upscope $end
+$scope begin Block19_8 $end
+$var reg 32 ` i $end
+$scope begin Block21_9 $end
+$var reg 32 a j $end
+$upscope $end
+$upscope $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0!
+0"
+b0 #
+0$
+0%
+b0 &
+b0 '
+b0 (
+0)
+bx *
+b0 +
+b0 ,
+b0 -
+0.
+0/
+b0 0
+01
+02
+b0 3
+b0 4
+b0 5
+x6
+x7
+x8
+bx 9
+bx :
+bx ;
+x<
+x=
+bx >
+0?
+0@
+0A
+bx B
+b0 C
+b0 D
+0E
+0F
+b0 G
+0H
+0I
+b0 J
+b0 K
+b0 L
+0M
+bx N
+b0 O
+b0 P
+b0 Q
+0R
+0S
+0T
+b0 U
+b0 V
+b0 W
+0X
+0Y
+b0 Z
+b0 [
+b0 \
+b0 ]
+b0 ^
+b0 _
+b100 `
+b100000000 a
+$end
+#5
+1!
+1.
+1?
+1E
+b0 [
+b0 ]
+b0 _
+#10
+0!
+0.
+0?
+0E
+#15
+1!
+1.
+1?
+1E
+b0 [
+b0 ]
+b0 _
+#20
+0!
+0.
+0?
+0E
+#25
+1!
+1.
+1?
+1E
+b0 [
+b0 ]
+b0 _
+#30
+0!
+0.
+0?
+0E
+#35
+1!
+1.
+1?
+1E
+b0 [
+b0 ]
+b0 _
+#40
+0!
+0.
+0?
+0E
+#45
+1!
+1"
+1.
+1/
+1?
+1@
+1E
+1F
+b0 [
+b0 ]
+b0 _
+#50
+0!
+0.
+0?
+0E
+#55
+1!
+1$
+1.
+11
+1?
+1E
+1H
+b0 [
+b1 \
+b0 ]
+#60
+0!
+0.
+0?
+0E
+#65
+1!
+b10 #
+1%
+b10100001 &
+b11011110101011011011101111101111 '
+1.
+b10 0
+12
+b10100001 3
+b11011110101011011011101111101111 4
+1?
+1E
+b10 G
+1I
+b10100001 J
+b11011110101011011011101111101111 K
+b0 L
+0M
+b0 O
+b0 P
+1R
+0S
+1T
+b10 U
+b10100001 V
+b11011110101011011011101111101111 W
+0X
+0Y
+b0 Z
+b1 [
+b10 \
+b0 ]
+b1 ^
+#70
+0!
+0.
+0?
+0E
+#75
+1!
+1.
+1?
+1E
+b0 L
+0M
+b0 O
+b0 P
+1R
+1S
+0X
+0Y
+b0 Z
+b10 [
+b10 \
+b1 ]
+b10 ^
+b101000100 _
+#80
+0!
+0.
+0?
+0E
+#85
+1!
+1)
+b10100001 +
+b11011110101011011011101111101111 ,
+1.
+1?
+1A
+b10100001 C
+b11011110101011011011101111101111 D
+1E
+b0 L
+1M
+b10100001 O
+b11011110101011011011101111101111 P
+1R
+1S
+1X
+0Y
+b0 Z
+b10 [
+b1 \
+b10 ]
+b1 ^
+#90
+0!
+0.
+0?
+0E
+#95
+1!
+0)
+b0 +
+b0 ,
+b0 -
+1.
+1?
+0A
+b0 C
+b0 D
+1E
+b0 L
+0M
+b0 O
+b0 P
+1R
+0S
+1T
+b10 U
+b10100001 V
+b11011110101011011011101111101111 W
+0X
+0Y
+b0 Z
+b1 [
+b10 \
+b1 ]
+b1 ^
+b101000100 _
+#100
+0!
+0.
+0?
+0E
+#105
+1!
+1.
+1?
+1E
+b0 L
+0M
+b0 O
+b0 P
+1R
+1S
+0X
+0Y
+b0 Z
+b10 [
+b10 \
+b1 ]
+b10 ^
+b101000100 _
+#110
+0!
+0.
+0?
+0E
+#115
+1!
+1)
+b10100001 +
+b11011110101011011011101111101111 ,
+1.
+1?
+1A
+b10100001 C
+b11011110101011011011101111101111 D
+1E
+b0 L
+1M
+b10100001 O
+b11011110101011011011101111101111 P
+1R
+1S
+1X
+0Y
+b0 Z
+b10 [
+b1 \
+b10 ]
+b1 ^
+#120
+0!
+0.
+0?
+0E
+#125
+1!
+0)
+b0 +
+b0 ,
+b0 -
+1.
+1?
+0A
+b0 C
+b0 D
+1E
+b0 L
+0M
+b0 O
+b0 P
+1R
+0S
+1T
+b10 U
+b10100001 V
+b11011110101011011011101111101111 W
+0X
+0Y
+b0 Z
+b1 [
+b10 \
+b1 ]
+b1 ^
+b101000100 _
+#130
+0!
+0.
+0?
+0E
+#135
+1!
+1.
+1?
+1E
+b0 L
+0M
+b0 O
+b0 P
+1R
+1S
+0X
+0Y
+b0 Z
+b10 [
+b10 \
+b1 ]
+b10 ^
+b101000100 _
+#140
+0!
+0.
+0?
+0E
+#145
+1!
+1)
+b10100001 +
+b11011110101011011011101111101111 ,
+1.
+1?
+1A
+b10100001 C
+b11011110101011011011101111101111 D
+1E
+b0 L
+1M
+b10100001 O
+b11011110101011011011101111101111 P
+1R
+1S
+1X
+0Y
+b0 Z
+b10 [
+b1 \
+b10 ]
+b1 ^
+#150
+0!
+0.
+0?
+0E
+#155
+1!
+0)
+b0 +
+b0 ,
+b0 -
+1.
+1?
+0A
+b0 C
+b0 D
+1E
+b0 L
+0M
+b0 O
+b0 P
+1R
+0S
+1T
+b10 U
+b10100001 V
+b11011110101011011011101111101111 W
+0X
+0Y
+b0 Z
+b1 [
+b10 \
+b1 ]
+b1 ^
+b101000100 _
+#160
+0!
+0.
+0?
+0E
