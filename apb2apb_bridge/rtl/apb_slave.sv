@@ -19,7 +19,7 @@ module apb_slave (apbif.slave sbus);
     begin
       addr_compare   <= '0;
     end 
-    else if (s_nxt_state == SETUP)
+    else if ((s_nxt_state == SETUP) & (|sbus.strobe))
     begin
       priority case (1)
         sbus.strobe[3] : addr_compare <= (sbus.addr+1)<<2;
@@ -88,7 +88,7 @@ module apb_slave (apbif.slave sbus);
 
       ACCESS :
       begin
-        if (sbus.sel & sbus.enable)
+        if (sbus.trnsfr)
         begin
           s_nxt_state     <= SETUP;
         end
@@ -121,6 +121,8 @@ module apb_slave (apbif.slave sbus);
         sbus.rdata        <= '0;
 
         sbus.mem_wr       <= '0;
+        sbus.mem_rd       <= '0;
+        sbus.mem_be       <= '0;
         sbus.mem_address  <= '0;
         sbus.mem_data_in  <= '0;
       end
@@ -132,6 +134,8 @@ module apb_slave (apbif.slave sbus);
         sbus.rdata        <= '0;
 
         sbus.mem_wr       <= '0;
+        sbus.mem_rd       <= '0;
+        sbus.mem_be       <= '0;
         sbus.mem_address  <= '0;
         sbus.mem_data_in  <= '0;
       end
@@ -141,6 +145,7 @@ module apb_slave (apbif.slave sbus);
         if (sbus.sel & sbus.enable)
         begin
           sbus.ready          <= '1;
+          sbus.mem_be         <= sbus.strobe;
 
           if (addr_compare > `MEM_BYTE)
           begin
@@ -148,6 +153,7 @@ module apb_slave (apbif.slave sbus);
             sbus.rdata        <= '0;
 
             sbus.mem_wr       <= '0;
+            sbus.mem_rd       <= '0;
             sbus.mem_address  <= '0;
             sbus.mem_data_in  <= '0;
           end
@@ -158,6 +164,7 @@ module apb_slave (apbif.slave sbus);
             sbus.rdata        <= '0;
 
             sbus.mem_wr       <= '1;
+            sbus.mem_rd       <= '0;
             sbus.mem_address  <= sbus.addr;
             sbus.mem_data_in  <= sbus.wdata;
           end
@@ -168,6 +175,7 @@ module apb_slave (apbif.slave sbus);
             sbus.rdata        <= sbus.mem_data_out;
 
             sbus.mem_wr       <= '0;
+            sbus.mem_rd       <= '1;
             sbus.mem_address  <= sbus.addr;
             sbus.mem_data_in  <= '0;
           end

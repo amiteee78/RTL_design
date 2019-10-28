@@ -22,6 +22,7 @@ module apb_bridge (apbif.bridge ibus);
     ibus.data_out,
 
     ibus.mem_wr,
+    ibus.mem_rd,
     ibus.mem_be,
     ibus.mem_address,
     ibus.mem_data_in,

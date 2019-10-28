@@ -31,7 +31,7 @@
 `endif
 
 `ifndef STRB_SIZE
-  `define STRB_SIZE `MEM_DEPTH
+  `define STRB_SIZE 4
 `endif
 
 `ifndef MEM_BYTE

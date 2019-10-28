@@ -81,7 +81,7 @@ module apb_mem (memif.mem membus);
     begin
       always_comb 
       begin
-        if (~membus.mem_wr)
+        if (membus.mem_rd)
         begin
           membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  = ram[m][membus.mem_address];
         end

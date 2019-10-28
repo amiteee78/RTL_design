@@ -14,6 +14,7 @@ interface apbif (
 
     // Address & Data Channel (Memory)
     output  logic                       mem_wr,
+    output  logic                       mem_rd,
     output  logic [`MEM_DEPTH-1:0]      mem_be,
     output  logic [`ADDR_WIDTH-1:0]     mem_address,
     output  logic [`DATA_WIDTH-1:0]     mem_data_in,
@@ -51,6 +52,7 @@ interface apbif (
 
     // Address & Data Channel (Memory)
     output   mem_wr,
+    output   mem_rd,
     output   mem_be,
     output   mem_address,
     output   mem_data_in,
@@ -98,9 +100,11 @@ interface apbif (
   /*********************************************************/
   modport slave (
     input    clk,    
-    input    rst_n,  
+    input    rst_n,
+    input    trnsfr,  
     // Address & Data Channel (Memory)
     output   mem_wr,
+    output   mem_rd,
     output   mem_be,
     output   mem_address,
     output   mem_data_in,  //name should be changed 
@@ -125,6 +129,7 @@ interface memif (
     input   logic                       rst_n,
     // Memory Access
     input   logic                       mem_wr,
+    input   logic                       mem_rd,
     input   logic [`MEM_DEPTH-1:0]      mem_be,
     input   logic [`ADDR_WIDTH-1:0]     mem_address,
     input   logic [`DATA_WIDTH-1:0]     mem_data_in,
@@ -143,6 +148,7 @@ interface memif (
     input  rst_n,
     // Memory Access
     input  mem_wr,
+    input  mem_rd,
     input  mem_be,
     input  mem_address,
     input  mem_data_in,
