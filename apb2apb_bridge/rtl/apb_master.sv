@@ -37,6 +37,43 @@ module apb_master (apbif.master mbus);
 
   enum logic [1:0] {IDLE, SETUP, ACCESS} m_state, m_nxt_state;
 
+  reg      [`STRB_SIZE-1:0]   strb_reg;
+  reg                         wr_reg;
+  reg      [`ADDR_WIDTH-1:0]  address_reg;
+  reg      [`DATA_WIDTH-1:0]  data_in_reg;
+
+  /*********************************************************/
+  /*  ***************************************************  */
+  /*  **                                               **  */
+  /*  **           Input Register Definition           **  */
+  /*  **                                               **  */
+  /*  ***************************************************  */
+  /*********************************************************/
+  always_ff @(posedge mbus.clk or negedge mbus.rst_n) 
+  begin
+    if(~mbus.rst_n) 
+    begin
+      strb_reg      <= '0;
+      wr_reg        <= '0;
+      address_reg   <= '0;
+      data_in_reg   <= '0;
+    end 
+    else if (mbus.trnsfr)
+    begin
+      strb_reg      <= mbus.strb;
+      wr_reg        <= mbus.wr;
+      address_reg   <= mbus.address;
+      data_in_reg   <= mbus.data_in;
+    end
+    else
+    begin
+      strb_reg      <= strb_reg;
+      wr_reg        <= wr_reg;    
+      address_reg   <= address_reg;
+      data_in_reg   <= data_in_reg;  
+    end
+  end
+
   /*********************************************************/
   /*  ***************************************************  */
   /*  **                                               **  */
