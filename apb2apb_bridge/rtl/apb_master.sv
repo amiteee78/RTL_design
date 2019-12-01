@@ -170,15 +170,17 @@ module apb_master (apbif.master mbus);
       begin
         mbus.sel      <= '1;
         mbus.enable   <= '0;
-        mbus.addr     <= mbus.address;
-        mbus.strobe   <= mbus.strb;
+        //mbus.addr     <= mbus.address;
+        mbus.addr     <= address_reg;
+        //mbus.strobe   <= mbus.strb;
+        mbus.strobe   <= strb_reg;
 
         mbus.data_out <= '0;
         
-        if (mbus.wr)
+        if (wr_reg)
         begin
           mbus.write     <= '1;            //write transfer enable
-          mbus.wdata     <= mbus.data_in;  // write data
+          mbus.wdata     <= data_in_reg;   // write data
         end
 
         else
@@ -192,6 +194,20 @@ module apb_master (apbif.master mbus);
       begin
         mbus.sel      <= '1;
         mbus.enable   <= '1;
+        mbus.addr     <= address_reg;
+        mbus.strobe   <= strb_reg;
+        
+        if (wr_reg)
+        begin
+          mbus.write     <= '1;            //write transfer enable
+          mbus.wdata     <= data_in_reg;   // write data
+        end
+
+        else
+        begin
+          mbus.write     <= '0;            //read transfer enable
+          mbus.wdata     <= '0;          
+        end
 
         if (mbus.ready)
         begin

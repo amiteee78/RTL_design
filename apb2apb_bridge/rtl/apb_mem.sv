@@ -85,6 +85,10 @@ module apb_mem (memif.mem membus);
         begin
           membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  = ram[m][membus.mem_address];
         end
+        else
+        begin
+          membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  = '0;
+        end
       end
     end
   endgenerate

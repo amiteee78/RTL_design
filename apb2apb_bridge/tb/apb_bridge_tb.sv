@@ -76,6 +76,8 @@ module apb_bridge_tb ();
 
     burst_write(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF, `DATA_WIDTH'hC0D9_42F0);
 
+    burst_read(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF);
+
     #100 $finish(1);
   end
 
@@ -138,6 +140,23 @@ module apb_bridge_tb ();
 
     trnsfr  <= '0;
 
-  endtask : burst_write  
+  endtask : burst_write
+
+  task burst_read(input bit [`ADDR_WIDTH-1:0] address_sr, input bit [`STRB_SIZE-1:0] strb_sr);
+    @(posedge clk);
+    trnsfr  <= '1;
+    wr      <= '0;
+    strb    <= strb_sr;
+    for (int i = 0; i < 8; i++) begin
+ 
+      address <= address_sr + i;
+      repeat(3) @(posedge clk);
+      //wait(apb2apb.pbus.ready);
+      //wait(~apb2apb.pbus.ready);
+      //@(posedge clk);
+    end
+
+    trnsfr  <= '0;      
+  endtask : burst_read  
 
 endmodule
