@@ -37,6 +37,7 @@ module apb_master (apbif.master mbus);
 
   enum logic [1:0] {IDLE, SETUP, ACCESS} m_state, m_nxt_state;
 
+  //reg      [1:0]              strb_reg;
   reg      [`STRB_SIZE-1:0]   strb_reg;
   reg                         wr_reg;
   reg      [`ADDR_WIDTH-1:0]  address_reg;
@@ -61,8 +62,10 @@ module apb_master (apbif.master mbus);
     else if (mbus.trnsfr)
     begin
       strb_reg      <= mbus.strb;
+      //strb_reg      <= {mbus.address,2'b00} >> mbus.dsel;
       wr_reg        <= mbus.wr;
       address_reg   <= mbus.address;
+      //address_reg   <= mbus.address >> mbus.dsel;
       data_in_reg   <= mbus.data_in;
     end
     else
@@ -170,11 +173,8 @@ module apb_master (apbif.master mbus);
       begin
         mbus.sel      <= '1;
         mbus.enable   <= '0;
-        //mbus.addr     <= mbus.address;
         mbus.addr     <= address_reg;
-        //mbus.strobe   <= mbus.strb;
-        mbus.strobe   <= strb_reg;
-
+        mbus.strobe   <= '0;
         mbus.data_out <= '0;
         
         if (wr_reg)

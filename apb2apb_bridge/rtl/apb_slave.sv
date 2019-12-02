@@ -6,6 +6,8 @@ module apb_slave (apbif.slave sbus);
 
   logic [`ADDR_WIDTH-1:0] addr_compare; // comparison register for maximum address
 
+  logic                   enable_reg;   // used to prevent glitching issue in the next state logic
+
   /*********************************************************/
   /*  ***************************************************  */
   /*  **                                               **  */
@@ -30,6 +32,21 @@ module apb_slave (apbif.slave sbus);
     end
   end
 
+  always_ff @(posedge sbus.clk or negedge sbus.rst_n) 
+  begin
+    if(~sbus.rst_n) 
+    begin
+      enable_reg  <= '0;
+    end 
+    else if (sbus.enable) 
+    begin
+      enable_reg  <= '1;
+    end
+    else
+    begin
+      enable_reg  <= '0;
+    end
+  end
   /*********************************************************/
   /*  ***************************************************  */
   /*  **                                               **  */
@@ -62,7 +79,7 @@ module apb_slave (apbif.slave sbus);
     unique case (s_state)
       IDLE :
       begin
-        if (sbus.sel)
+        if (sbus.sel & ~sbus.enable) // modified to prevent glitching issue in the next state logic
         begin
           s_nxt_state     <= SETUP;
         end
@@ -75,11 +92,10 @@ module apb_slave (apbif.slave sbus);
 
       SETUP :
       begin
-        if (sbus.sel & sbus.enable)
+        if (sbus.sel & sbus.enable & ~enable_reg) // modified to prevent glitching issue in the next state logic
         begin
           s_nxt_state     <= ACCESS;
         end
-
         else
         begin
           s_nxt_state     <= SETUP;
@@ -133,11 +149,28 @@ module apb_slave (apbif.slave sbus);
         sbus.slverr       <= '0;
         sbus.rdata        <= '0;
 
-        sbus.mem_wr       <= '0;
-        sbus.mem_rd       <= '0;
-        sbus.mem_be       <= '0;
-        sbus.mem_address  <= '0;
-        sbus.mem_data_in  <= '0;
+        //sbus.mem_wr       <= '0;
+        //sbus.mem_rd       <= '0;
+        //sbus.mem_be       <= '0;
+        sbus.mem_be       <= sbus.strobe;
+        //sbus.mem_address  <= '0;
+        //sbus.mem_data_in  <= '0;
+
+        if (sbus.write)
+        begin
+          sbus.mem_wr       <= '1;
+          sbus.mem_rd       <= '0;
+          sbus.mem_address  <= sbus.addr;
+          sbus.mem_data_in  <= sbus.wdata;
+        end
+
+        else
+        begin
+          sbus.mem_wr       <= '0;
+          sbus.mem_rd       <= '1;
+          sbus.mem_address  <= sbus.addr;
+          sbus.mem_data_in  <= '0;
+        end
       end
 
       ACCESS:

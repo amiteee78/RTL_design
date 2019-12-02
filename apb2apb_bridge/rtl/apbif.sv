@@ -3,6 +3,7 @@
 interface apbif (
     input   logic                       clk,    // Clock
     input   logic                       rst_n,  // Asynchronous reset active low
+    input   logic [1:0]                 dsel,
     input   logic [`STRB_SIZE-1:0]      strb,   // selection among byte/half word/word transfer
     input   logic                       trnsfr, // Continue transfer
 
@@ -41,6 +42,7 @@ interface apbif (
   modport bridge (
     input    clk,
     input    rst_n,
+    input    dsel,
     input    strb,
     input    trnsfr,
 
@@ -69,6 +71,7 @@ interface apbif (
   modport master (
     input    clk,    
     input    rst_n,
+    input    dsel,
     input    strb,  
     input    trnsfr,
 

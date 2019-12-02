@@ -10,7 +10,7 @@ ffdiv_32bit_tb_test
 -NOCOPYRIGHT
 -MESSAGES
 -XLSTIME
-1568870009
+1573532418
 -XLKEEP
 -XLMODE
 ./INCA_libs/irun.lnx8664.15.20.nc
@@ -24,4 +24,4 @@ irun
 -XLVERSION
 "TOOL:	irun(64)	15.20-s060"
 -XLNAME
-./INCA_libs/irun.lnx8664.15.20.nc/ns.server1_7920
+./INCA_libs/irun.lnx8664.15.20.nc/ns.server1_4507

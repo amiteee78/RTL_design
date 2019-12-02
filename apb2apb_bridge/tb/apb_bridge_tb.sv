@@ -5,7 +5,8 @@ module apb_bridge_tb ();
 
   bit                         clk;   
   bit                         rst_n; 
-  bit   [`STRB_SIZE-1:0]      strb;  
+  bit   [`STRB_SIZE-1:0]      strb;
+  bit   [1:0]                 dsel;  
   bit                         trnsfr;
   // Address & Data Channel (APB Master)
   bit                         wr;
@@ -74,9 +75,18 @@ module apb_bridge_tb ();
       single_read(`ADDR_WIDTH'h0000_00F0 + i, `STRB_SIZE'hF);
     end
 
-    burst_write(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF, `DATA_WIDTH'hC0D9_42F0);
+    burst_write(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF, `DATA_WIDTH'hC0D9_42F0, 8);
 
-    burst_read(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF);
+    burst_read(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF, 8);
+
+    for (int i = 0; i < 8; i++) 
+    begin
+      single_write(`ADDR_WIDTH'h0000_006F + i, `STRB_SIZE'hF, `DATA_WIDTH'h1C06_9D4F + i);
+    end
+    single_read(`ADDR_WIDTH'h0000_006F, `STRB_SIZE'h1);
+    single_read(`ADDR_WIDTH'h0000_006F, `STRB_SIZE'h2);
+    single_read(`ADDR_WIDTH'h0000_006F, `STRB_SIZE'h4);
+    single_read(`ADDR_WIDTH'h0000_006F, `STRB_SIZE'h8);
 
     #100 $finish(1);
   end
@@ -101,6 +111,7 @@ module apb_bridge_tb ();
     data_in <= data_sr;
     @(posedge clk);
     trnsfr  <= '0;
+    wr      <= '0;
 
     wait(apb2apb.pbus.ready);
     wait(~apb2apb.pbus.ready);
@@ -122,13 +133,13 @@ module apb_bridge_tb ();
   
   endtask : single_read
 
-  task burst_write(input bit [`ADDR_WIDTH-1:0] address_sr, input bit [`STRB_SIZE-1:0] strb_sr, input bit [`DATA_WIDTH-1:0] data_sr);
+  task burst_write(input bit [`ADDR_WIDTH-1:0] address_sr, input bit [`STRB_SIZE-1:0] strb_sr, input bit [`DATA_WIDTH-1:0] data_sr, input int count);
 
     @(posedge clk);
     trnsfr  <= '1;
     wr      <= '1;
     strb    <= strb_sr;
-    for (int i = 0; i < 8; i++) begin
+    for (int i = 0; i < count; i++) begin
  
       address <= address_sr + i;
       data_in <= data_sr + i;
@@ -142,12 +153,12 @@ module apb_bridge_tb ();
 
   endtask : burst_write
 
-  task burst_read(input bit [`ADDR_WIDTH-1:0] address_sr, input bit [`STRB_SIZE-1:0] strb_sr);
+  task burst_read(input bit [`ADDR_WIDTH-1:0] address_sr, input bit [`STRB_SIZE-1:0] strb_sr, input int count);
     @(posedge clk);
     trnsfr  <= '1;
     wr      <= '0;
     strb    <= strb_sr;
-    for (int i = 0; i < 8; i++) begin
+    for (int i = 0; i < count; i++) begin
  
       address <= address_sr + i;
       repeat(3) @(posedge clk);

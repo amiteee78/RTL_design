@@ -13,6 +13,7 @@ module apb_bridge (apbif.bridge ibus);
   apbif pbus (
     ibus.clk,
     ibus.rst_n,
+    ibus.dsel,
     ibus.strb,
     ibus.trnsfr,
 

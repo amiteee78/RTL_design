@@ -9,7 +9,7 @@
 -timescale
 1ns/1ns
 -COVFILE
-coverage/ffdiv_top_cov.ccf
+coverage/_cov.ccf
 -COVERAGE
 A
 -COVDUT

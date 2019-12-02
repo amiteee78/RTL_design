@@ -1,7 +1,7 @@
-Running: xsim.dir/apb_bridge_tb_behav/xsimk -runall -sv_seed --nolog -simmode gui -wdb apb_bridge_tb_behav.wdb -simrunnum 0 -socket 40339
+Running: xsim.dir/apb_bridge_tb_behav/xsimk -runall -sv_seed --nolog -simmode gui -wdb apb_bridge_tb_behav.wdb -simrunnum 0 -socket 46053
 Design successfully loaded
-Design Loading Memory Usage: 37048 KB (Peak: 37168 KB)
+Design Loading Memory Usage: 35480 KB (Peak: 35480 KB)
 Design Loading CPU Usage: 0 ms
 Simulation completed
-Simulation Memory Usage: 111040 KB (Peak: 176316 KB)
-Simulation CPU Usage: 20 ms
+Simulation Memory Usage: 109476 KB (Peak: 174752 KB)
+Simulation CPU Usage: 40 ms

@@ -6,6 +6,7 @@ module apb_mem (memif.mem membus);
   genvar k,m;
   reg   [`MEM_WIDTH-1:0]  ram [`MEM_DEPTH-1:0] [0:`MEM_SIZE-1];
   logic [`MEM_WIDTH-1:0]  temp_wdata [`MEM_DEPTH-1:0];
+  logic [`MEM_WIDTH-1:0]  temp_rdata [`MEM_DEPTH-1:0];
 
   /*********************************************************/
   /*  ***************************************************  */
@@ -79,15 +80,36 @@ module apb_mem (memif.mem membus);
   generate
     for (m = 0; m < `MEM_DEPTH; m++) 
     begin
-      always_comb 
+      //always_comb
+      always_ff @(posedge membus.clk) 
       begin
-        if (membus.mem_rd)
+        /*if (membus.mem_rd)
         begin
-          membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  = ram[m][membus.mem_address];
+          if (membus.mem_be[m])
+          begin
+            temp_rdata[m]  <= ram[m][membus.mem_address];
+            membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  <= ram[m][membus.mem_address];
+          end
+          else
+          begin
+            temp_rdata[m]  <= '0;
+            membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  <= '0;
+          end
         end
         else
         begin
-          membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  = '0;
+          membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  <= '0;
+        end*/
+
+        if (membus.mem_rd & membus.mem_be[m])
+        begin
+          temp_rdata[m]  <= ram[m][membus.mem_address];
+          membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  <= ram[m][membus.mem_address];
+        end
+        else
+        begin
+          temp_rdata[m]  <= '0;
+          membus.mem_data_out[(`MEM_WIDTH*m)+`MEM_WIDTH-1:(`MEM_WIDTH*m)]  <= '0;
         end
       end
     end
