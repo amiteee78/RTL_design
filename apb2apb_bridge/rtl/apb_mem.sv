@@ -64,6 +64,7 @@ module apb_mem (memif.mem membus);
           if (membus.mem_be[k])
           begin
             ram[k][membus.mem_address]  <= membus.mem_data_in[(`MEM_WIDTH*k)+`MEM_WIDTH-1:(`MEM_WIDTH*k)];
+            
           end
         end
       end

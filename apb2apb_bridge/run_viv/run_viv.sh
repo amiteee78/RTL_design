@@ -8,3 +8,4 @@ xelab --lib $1_lib --snapshot $1_behav $1_lib.$1 --timescale 1ns/1ns --nolog
 xsim $1_behav --runall --sv_seed --nolog
 
 rm -rf *jou *log *pb
+./mem_file_mod.py

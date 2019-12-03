@@ -52,7 +52,7 @@ module apb_bridge_tb ();
   initial
   begin
     $dumpfile("apb_bridge_tb.vcd");
-    $dumpvars();
+    $dumpvars(0);
   end
 
   initial
@@ -93,6 +93,7 @@ module apb_bridge_tb ();
 
   final
   begin
+    $writememh("ram.hex",memory.ram,0,`MEM_DEPTH-1);
     $display("Simulation Finished");
   end
 
