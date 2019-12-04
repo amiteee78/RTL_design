@@ -1,12 +1,14 @@
 `timescale 1ns/1ns
 `include "apb_arch.svh"
 
+typedef enum bit [1:0] {FULLWORD, HALFWORD, BYTE} dsel_type; 
+
 module apb_bridge_tb ();
 
   bit                         clk;   
   bit                         rst_n; 
   bit   [`STRB_SIZE-1:0]      strb;
-  bit   [1:0]                 dsel;  
+  dsel_type                   dsel;  
   bit                         trnsfr;
   // Address & Data Channel (APB Master)
   bit                         wr;
@@ -57,8 +59,8 @@ module apb_bridge_tb ();
 
   initial
   begin
-    $monitor("Write Enable:: %b \t Write Adress:: %h \tWrite Data:: %h \t@time %0t ns", test_bus.mem_wr, test_bus.mem_address, test_bus.mem_data_in,  $realtime());    
-    $monitor("Read  Enable:: %b \t Read  Adress:: %h \tRead  Data:: %h \t@time %0t ns", test_bus.mem_rd, test_bus.mem_address, test_bus.mem_data_out, $realtime());
+    $monitor("Write Enable:: %b \t Write Adress:: %h \tWrite Data:: %h \t@time %0t ns", test_bus.mem_wr, test_bus.mem_address, test_bus.data_in,  $realtime());    
+    $monitor("Read  Enable:: %b \t Read  Adress:: %h \tRead  Data:: %h \t@time %0t ns", test_bus.mem_rd, test_bus.mem_address, test_bus.data_out, $realtime());
   end
 
   initial
@@ -67,33 +69,74 @@ module apb_bridge_tb ();
 
     for (int i = 0; i < 10; i++) 
     begin
-      single_write(`ADDR_WIDTH'h0000_00F0 + i, `STRB_SIZE'hF, `DATA_WIDTH'h000A_3210 + i);
+      single_write(`ADDR_WIDTH'h0000_00F0 + i, FULLWORD, `DATA_WIDTH'h000A_3210 + i);
     end
 
     for (int i = 0; i < 10; i++) 
     begin
-      single_read(`ADDR_WIDTH'h0000_00F0 + i, `STRB_SIZE'hF);
+      single_read(`ADDR_WIDTH'h0000_00F0 + i, FULLWORD);
     end
 
-    burst_write(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF, `DATA_WIDTH'hC0D9_42F0, 8);
+    for (int i = 0; i < 10; i++) 
+    begin
+      single_write(`ADDR_WIDTH'h0000_0012 + i, HALFWORD, `DATA_WIDTH'h510F_CB29 + i);
+    end
 
-    burst_read(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF, 8);
+    for (int i = 0; i < 10; i++) 
+    begin
+      single_read(`ADDR_WIDTH'h0000_0012 + i, HALFWORD);
+    end
 
-    for (int i = 0; i < 8; i++) 
+    for (int i = 0; i < 10; i++) 
+    begin
+      single_write(`ADDR_WIDTH'h0000_003D + i, BYTE, `DATA_WIDTH'h0102_1034 + i);
+    end
+
+    for (int i = 0; i < 10; i++) 
+    begin
+      single_read(`ADDR_WIDTH'h0000_003D + i, BYTE);
+    end
+
+    // Slave Error Test
+    for (int i = 0; i < 2; i++) 
+    begin
+      single_write(`ADDR_WIDTH'h0000_0100 + i, FULLWORD, `DATA_WIDTH'h0102_1034 + i);
+    end
+
+    for (int i = 0; i < 2; i++) 
+    begin
+      single_write(`ADDR_WIDTH'h0000_0200 + i, HALFWORD, `DATA_WIDTH'h0102_1034 + i);
+    end
+
+    for (int i = 0; i < 2; i++) 
+    begin
+      single_write(`ADDR_WIDTH'h0000_0400 + i, BYTE, `DATA_WIDTH'h0102_1034 + i);
+    end
+
+/*    for (int i = 0; i < 10; i++) 
+    begin
+      single_read(`ADDR_WIDTH'h0000_0013 + i, FULLWORD);
+    end*/
+
+    //burst_write(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF, `DATA_WIDTH'hC0D9_42F0, 8);
+
+    //burst_read(`ADDR_WIDTH'h0000_00B0, `STRB_SIZE'hF, 8);
+
+/*    for (int i = 0; i < 8; i++) 
     begin
       single_write(`ADDR_WIDTH'h0000_006F + i, `STRB_SIZE'hF, `DATA_WIDTH'h1C06_9D4F + i);
     end
     single_read(`ADDR_WIDTH'h0000_006F, `STRB_SIZE'h1);
     single_read(`ADDR_WIDTH'h0000_006F, `STRB_SIZE'h2);
     single_read(`ADDR_WIDTH'h0000_006F, `STRB_SIZE'h4);
-    single_read(`ADDR_WIDTH'h0000_006F, `STRB_SIZE'h8);
+    single_read(`ADDR_WIDTH'h0000_006F, `STRB_SIZE'h8);*/
 
-    #100 $finish(1);
+    #20 $finish(1);
   end
 
   final
   begin
-    $writememh("ram.hex",memory.ram,0,`MEM_DEPTH-1);
+    $writememh("ram.hex",memory.ram);
     $display("Simulation Finished");
   end
 
@@ -102,12 +145,12 @@ module apb_bridge_tb ();
     rst_n   <= '1;    
   endtask : async_reset
 
-  task single_write(input bit [`ADDR_WIDTH-1:0] address_sr, input bit [`STRB_SIZE-1:0] strb_sr, input bit [`DATA_WIDTH-1:0] data_sr);
+  task single_write(input bit [`ADDR_WIDTH-1:0] address_sr, input dsel_type dsel_sw, input bit [`DATA_WIDTH-1:0] data_sr);
 
     @(posedge clk);
     trnsfr  <= '1;
     wr      <= '1;
-    strb    <= strb_sr;
+    dsel    <= dsel_sw;
     address <= address_sr;
     data_in <= data_sr;
     @(posedge clk);
@@ -119,12 +162,12 @@ module apb_bridge_tb ();
     
   endtask : single_write
 
-  task single_read(input bit [`ADDR_WIDTH-1:0] address_sr, input bit [`STRB_SIZE-1:0] strb_sr);
+  task single_read(input bit [`ADDR_WIDTH-1:0] address_sr, input dsel_type dsel_sr);
 
     @(posedge clk);
     trnsfr  <= '1;
     wr      <= '0;
-    strb    <= strb_sr;
+    dsel    <= dsel_sr;
     address <= address_sr;
     @(posedge clk);
     trnsfr  <= '0;
@@ -134,12 +177,12 @@ module apb_bridge_tb ();
   
   endtask : single_read
 
-  task burst_write(input bit [`ADDR_WIDTH-1:0] address_sr, input bit [`STRB_SIZE-1:0] strb_sr, input bit [`DATA_WIDTH-1:0] data_sr, input int count);
+  task burst_write(input bit [`ADDR_WIDTH-1:0] address_sr, input dsel_type dsel_bw, input bit [`DATA_WIDTH-1:0] data_sr, input int count);
 
     @(posedge clk);
     trnsfr  <= '1;
     wr      <= '1;
-    strb    <= strb_sr;
+    dsel    <= dsel_bw;
     for (int i = 0; i < count; i++) begin
  
       address <= address_sr + i;
@@ -154,11 +197,11 @@ module apb_bridge_tb ();
 
   endtask : burst_write
 
-  task burst_read(input bit [`ADDR_WIDTH-1:0] address_sr, input bit [`STRB_SIZE-1:0] strb_sr, input int count);
+  task burst_read(input bit [`ADDR_WIDTH-1:0] address_sr, input dsel_type dsel_br, input int count);
     @(posedge clk);
     trnsfr  <= '1;
     wr      <= '0;
-    strb    <= strb_sr;
+    dsel    <= dsel_br;
     for (int i = 0; i < count; i++) begin
  
       address <= address_sr + i;

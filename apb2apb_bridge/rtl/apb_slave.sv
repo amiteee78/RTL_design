@@ -4,7 +4,7 @@
 module apb_slave (apbif.slave sbus);
   enum logic [1:0] {IDLE, SETUP, ACCESS} s_state, s_nxt_state;
 
-  logic [`ADDR_WIDTH-1:0] addr_compare; // comparison register for maximum address
+  //logic [`ADDR_WIDTH-1:0] addr_compare; // comparison register for maximum address
 
   logic                   enable_reg;   // used to prevent glitching issue in the next state logic
 
@@ -15,7 +15,7 @@ module apb_slave (apbif.slave sbus);
   /*  **                                               **  */
   /*  ***************************************************  */
   /*********************************************************/
-  always_ff @(posedge sbus.clk or negedge sbus.rst_n) 
+/*  always_ff @(posedge sbus.clk or negedge sbus.rst_n) 
   begin
     if(~sbus.rst_n) 
     begin
@@ -30,7 +30,7 @@ module apb_slave (apbif.slave sbus);
         sbus.strobe[0] : addr_compare <= sbus.addr;
       endcase
     end
-  end
+  end*/
 
   always_ff @(posedge sbus.clk or negedge sbus.rst_n) 
   begin
@@ -148,15 +148,16 @@ module apb_slave (apbif.slave sbus);
         sbus.ready        <= '0;
         sbus.slverr       <= '0;
         sbus.rdata        <= '0;
-
-        //sbus.mem_wr       <= '0;
-        //sbus.mem_rd       <= '0;
-        //sbus.mem_be       <= '0;
         sbus.mem_be       <= sbus.strobe;
-        //sbus.mem_address  <= '0;
-        //sbus.mem_data_in  <= '0;
 
-        if (sbus.write)
+        if (sbus.addr >= `MEM_SIZE)
+        begin
+          sbus.mem_wr       <= '0;
+          sbus.mem_rd       <= '0;
+          sbus.mem_address  <= '0;
+          sbus.mem_data_in  <= '0;          
+        end
+        else if (sbus.write)
         begin
           sbus.mem_wr       <= '1;
           sbus.mem_rd       <= '0;
@@ -180,7 +181,8 @@ module apb_slave (apbif.slave sbus);
           sbus.ready          <= '1;
           sbus.mem_be         <= sbus.strobe;
 
-          if (addr_compare > `MEM_BYTE)
+          //if (addr_compare > `MEM_BYTE)
+          if (sbus.addr >= `MEM_SIZE)
           begin
             sbus.slverr       <= '1;
             sbus.rdata        <= '0;
