@@ -3,9 +3,6 @@
 
 module apb_slave (apbif.slave sbus);
   enum logic [1:0] {IDLE, SETUP, ACCESS} s_state, s_nxt_state;
-
-  //logic [`ADDR_WIDTH-1:0] addr_compare; // comparison register for maximum address
-
   logic                   enable_reg;   // used to prevent glitching issue in the next state logic
 
   /*********************************************************/
@@ -15,22 +12,6 @@ module apb_slave (apbif.slave sbus);
   /*  **                                               **  */
   /*  ***************************************************  */
   /*********************************************************/
-/*  always_ff @(posedge sbus.clk or negedge sbus.rst_n) 
-  begin
-    if(~sbus.rst_n) 
-    begin
-      addr_compare   <= '0;
-    end 
-    else if ((s_nxt_state == SETUP) & (|sbus.strobe))
-    begin
-      priority case (1)
-        sbus.strobe[3] : addr_compare <= (sbus.addr+1)<<2;
-        sbus.strobe[2] : addr_compare <= ((sbus.addr+1)<<1) + sbus.addr;
-        sbus.strobe[1] : addr_compare <= (sbus.addr+1)<<1;
-        sbus.strobe[0] : addr_compare <= sbus.addr;
-      endcase
-    end
-  end*/
 
   always_ff @(posedge sbus.clk or negedge sbus.rst_n) 
   begin
@@ -114,6 +95,11 @@ module apb_slave (apbif.slave sbus);
           s_nxt_state     <= IDLE;
         end
       end
+
+      default :
+      begin
+        s_nxt_state     <= IDLE;
+      end
     endcase
 
   end
@@ -130,7 +116,7 @@ module apb_slave (apbif.slave sbus);
   begin
   
     unique case (s_state)
-      IDLE:
+      IDLE :
       begin
         sbus.ready        <= '0;
         sbus.slverr       <= '0;
@@ -143,7 +129,7 @@ module apb_slave (apbif.slave sbus);
         sbus.mem_data_in  <= '0;
       end
 
-      SETUP:
+      SETUP :
       begin
         sbus.ready        <= '0;
         sbus.slverr       <= '0;
@@ -174,7 +160,7 @@ module apb_slave (apbif.slave sbus);
         end
       end
 
-      ACCESS:
+      ACCESS :
       begin
         if (sbus.sel & sbus.enable)
         begin
@@ -226,6 +212,19 @@ module apb_slave (apbif.slave sbus);
           sbus.mem_address  <= '0;
           sbus.mem_data_in  <= '0;
         end
+      end
+
+      default :
+      begin
+        sbus.ready        <= '0;
+        sbus.slverr       <= '0;
+        sbus.rdata        <= '0;
+
+        sbus.mem_wr       <= '0;
+        sbus.mem_rd       <= '0;
+        sbus.mem_be       <= '0;
+        sbus.mem_address  <= '0;
+        sbus.mem_data_in  <= '0;
       end
     endcase
 

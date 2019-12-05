@@ -141,6 +141,11 @@ module apb_master (apbif.master mbus);
           m_nxt_state     <= ACCESS;
         end
       end
+
+      default :
+      begin
+        m_nxt_state     <= IDLE;
+      end
     endcase
 
   end
@@ -157,7 +162,7 @@ module apb_master (apbif.master mbus);
   begin
     
     unique case (m_state)
-      IDLE:
+      IDLE :
       begin
         mbus.sel      <= '0;
         mbus.enable   <= '0;
@@ -169,7 +174,7 @@ module apb_master (apbif.master mbus);
         mbus.data_out <= '0;
       end
 
-      SETUP:
+      SETUP :
       begin
         mbus.sel      <= '1;
         mbus.enable   <= '0;
@@ -190,7 +195,7 @@ module apb_master (apbif.master mbus);
         end
       end
 
-      ACCESS:
+      ACCESS :
       begin
         mbus.sel      <= '1;
         mbus.enable   <= '1;
@@ -229,6 +234,18 @@ module apb_master (apbif.master mbus);
         begin
           mbus.data_out  <= '0;
         end
+      end
+
+      default :
+      begin
+        mbus.sel      <= '0;
+        mbus.enable   <= '0;
+        mbus.write    <= '0;
+        mbus.strobe   <= '0;
+        mbus.addr     <= '0;
+        mbus.wdata    <= '0;
+
+        mbus.data_out <= '0;
       end
     endcase
 
