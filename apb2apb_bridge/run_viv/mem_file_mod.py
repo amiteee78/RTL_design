@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 from numpy import array, transpose
 mem_rd = open("ram.hex","r");
 mem_wr = open("ram_format.hex",'w+')

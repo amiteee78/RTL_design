@@ -59,8 +59,8 @@ module apb_bridge_tb ();
 
   initial
   begin
-    $monitor("Write Enable:: %b \t Write Adress:: %h \tWrite Data:: %h \t@time %0t ns", test_bus.mem_wr, test_bus.mem_address, test_bus.data_in,  $realtime());    
-    $monitor("Read  Enable:: %b \t Read  Adress:: %h \tRead  Data:: %h \t@time %0t ns", test_bus.mem_rd, test_bus.mem_address, test_bus.data_out, $realtime());
+    $monitor("Write Enable:: %b \t Write Adress:: %h \tWrite Data:: %h \t@time %0t ns", test_bus.mem_wr, test_bus.mem_address, test_bus.mem_data_in,  $realtime());    
+    $monitor("Read  Enable:: %b \t Read  Adress:: %h \tRead  Data:: %h \t@time %0t ns", test_bus.mem_rd, test_bus.mem_address, test_bus.mem_data_out, $realtime());
   end
 
   initial
@@ -167,9 +167,9 @@ module apb_bridge_tb ();
     @(posedge clk);
     trnsfr  <= '0;
     wr      <= '0;
-
-    wait(apb2apb.pbus.ready);
-    wait(~apb2apb.pbus.ready);
+    repeat(3) @(posedge clk);
+    //wait(apb2apb.pbus.ready);
+    //wait(~apb2apb.pbus.ready);
     
   endtask : single_write
 
@@ -182,8 +182,9 @@ module apb_bridge_tb ();
     address <= address_sr;
     @(posedge clk);
     trnsfr  <= '0;
-    wait(apb2apb.pbus.ready);
-    wait(~apb2apb.pbus.ready);
+    repeat(3) @(posedge clk);
+    //wait(apb2apb.pbus.ready);
+    //wait(~apb2apb.pbus.ready);
     //@(posedge clk);
   
   endtask : single_read
