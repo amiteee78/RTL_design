@@ -11,22 +11,22 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
 
 - Cadence Incisive Enterprise Simulator tool provides support for advanced learners.
 
-
 ## Table of Contents
 
 <!--ts-->
-  * [Features](#Features)
-  * [Directoty Structure](#Directoty Structure)
-  * [Source Files](#Source Files)
-  * [Architecture Specification](#Architecture Specification)
-  * [Interface](#Interface)
-  * [Common signals](#Common signals)
-  * [AXI Stream Interface Example](#AXI Stream Interface Example)
-  * [Functional Verification](#Functional Verification)
-    * [Testbench Files](#Testbench Files)
-  * [Simulation](#Simulation)
-    * [Vivado Simulator](#Vivado Simulator)
-    * [Cadence Simulator](#Cadence Simulator)  
+   * [gh-md-toc](#gh-md-toc)
+   * [Table of contents](#table-of-contents)
+   * [Installation](#installation)
+   * [Usage](#usage)
+      * [STDIN](#stdin)
+      * [Local files](#local-files)
+      * [Remote files](#remote-files)
+      * [Multiple files](#multiple-files)
+      * [Combo](#combo)
+      * [Auto insert and update TOC](#auto-insert-and-update-toc)
+      * [GitHub token](#github-token)
+   * [Tests](#tests)
+   * [Dependency](#dependency)
 <!--te-->
 
 ## Features
