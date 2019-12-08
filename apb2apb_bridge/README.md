@@ -14,20 +14,18 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
 
 ## Table of Contents
 
-<!--ts-->
-    * [Features](#Features)
-    * [Directoty Structure](#Directoty Structure)
-    * [Source Files](#Source Files)
-    * [Architecture Specification](#Architecture Specification)
-    * [Interface](#Interface)
-    * [Common signals](#Common signals)
-    * [AXI Stream Interface Example](#AXI Stream Interface Example)
-    * [Functional Verification](#Functional Verification)
-        * [Testbench Files](#Testbench Files)
-    * [Simulation](#Simulation)
-        * [Vivado Simulator](#Vivado Simulator)
-        * [Cadence Simulator](#Cadence Simulator)  
-<!--te-->
+  * [Features](#Features)
+  * [Directoty Structure](#Directoty Structure)
+  * [Source Files](#Source Files)
+  * [Architecture Specification](#Architecture Specification)
+  * [Interface](#Interface)
+  * [Common signals](#Common signals)
+  * [AXI Stream Interface Example](#AXI Stream Interface Example)
+  * [Functional Verification](#Functional Verification)
+    * [Testbench Files](#Testbench Files)
+  * [Simulation](#Simulation)
+    * [Vivado Simulator](#Vivado Simulator)
+    * [Cadence Simulator](#Cadence Simulator)  
 
 ## Features
 
