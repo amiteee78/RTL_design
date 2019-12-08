@@ -15,17 +15,17 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
 
 <!--ts-->
    * [Features](#Features)
-   * [Directoty Structure](#Directoty Structure)
-   * [Source Files](#Source Files)
-   * [Architecture Specification](#usage)
+   * [Directory Structure](#Directory-Structure)
+   * [Source Files](#Source-Files)
+   * [Architecture Specification](#Architecture-Specification)
    * [Interface](#Interface)
-   * [Common signals](#Common signals)
-   * [AXI Stream Interface Example](#AXI Stream Interface Example)
-   * [Functional Verification](#Functional Verification)
-      * [Testbench Files](#Testbench Files)
+   * [Common signals](#Common-signals)
+   * [AXI Stream Interface Example](#AXI-Stream-Interface-Example)
+   * [Functional Verification](#Functional-Verification)
+      * [Testbench Files](#Testbench-Files)
    * [Simulation](#Simulation)
-      * [Vivado Simulator](#Vivado Simulator)
-      * [Cadence Simulator](#Cadence Simulator)
+      * [Vivado Simulator](#Vivado-Simulator)
+      * [Cadence Simulator](#Cadence-Simulator)
 <!--te-->
 
 ## Features
@@ -37,7 +37,7 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
 - Both single-mode & burst-mode memory access.
 - configurable memory size according to the width of **address bus** (32 bit).
 
-## Directoty Structure
+## Directory Structure
 
     apb2apb_bridge/arch_specs  : Architecture specification directory.
     apb2apb_bridge/rtl         : Register Transfer Level source code directory.
