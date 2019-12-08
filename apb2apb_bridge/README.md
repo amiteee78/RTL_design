@@ -14,6 +14,7 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
 
 ## Table of Contents
 
+<!--ts-->
   * [Features](#Features)
   * [Directoty Structure](#Directoty Structure)
   * [Source Files](#Source Files)
@@ -26,6 +27,7 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
   * [Simulation](#Simulation)
     * [Vivado Simulator](#Vivado Simulator)
     * [Cadence Simulator](#Cadence Simulator)  
+<!--te-->
 
 ## Features
 
