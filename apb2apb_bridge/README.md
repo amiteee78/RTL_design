@@ -14,19 +14,18 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
 ## Table of Contents
 
 <!--ts-->
-   * [gh-md-toc](#gh-md-toc)
-   * [Table of contents](#table-of-contents)
-   * [Installation](#installation)
-   * [Usage](#usage)
-      * [STDIN](#stdin)
-      * [Local files](#local-files)
-      * [Remote files](#remote-files)
-      * [Multiple files](#multiple-files)
-      * [Combo](#combo)
-      * [Auto insert and update TOC](#auto-insert-and-update-toc)
-      * [GitHub token](#github-token)
-   * [Tests](#tests)
-   * [Dependency](#dependency)
+   * [Features](#Features)
+   * [Directoty Structure](#Directoty Structure)
+   * [Source Files](#Source Files)
+   * [Architecture Specification](#usage)
+   * [Interface](#Interface)
+   * [Common signals](#Common signals)
+   * [AXI Stream Interface Example](#AXI Stream Interface Example)
+   * [Functional Verification](#Functional Verification)
+      * [Testbench Files](#Testbench Files)
+   * [Simulation](#Simulation)
+      * [Vivado Simulator](#Vivado Simulator)
+      * [Cadence Simulator](#Cadence Simulator)
 <!--te-->
 
 ## Features
