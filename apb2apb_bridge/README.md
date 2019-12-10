@@ -119,7 +119,7 @@ All the interfaces connecting the test bench, APB master, APB slave and SRAM mod
 
 ## Block Diagram
 
-![apb2apb_bridge_block](https://github.com/amiteee78/RTL_design/tree/master/apb2apb_bridge/docs/apb2apb_bridge_block.png)
+![](https://github.com/amiteee78/RTL_design/blob/5f0e44b7fd6a5500b9f341255827e54cf1384efe/apb2apb_bridge/docs/apb2apb_bridge_block.png)
 
 -------------------------------------------------------------------------------
 
@@ -132,7 +132,8 @@ All the interfaces connecting the test bench, APB master, APB slave and SRAM mod
     * If **ready** is held LOW by the slave then the peripheral bus remains in the ACCESS state.
     * If **ready** is driven HIGH by the slave then the ACCESS state is exited and the bus returns to the IDLE state if no more transfers are required. Alternatively, the bus moves directly to the SETUP state if another transfer follows.
 
-<img src="https://github.com/amiteee78/RTL_design/tree/master/apb2apb_bridge/docs/APB_FSM.png" width="500px">
+![](https://github.com/amiteee78/RTL_design/blob/5f0e44b7fd6a5500b9f341255827e54cf1384efe/apb2apb_bridge/docs/APB_FSM.png)
+
 
 ## AXI Stream Interface Example
 
