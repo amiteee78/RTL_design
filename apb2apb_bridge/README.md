@@ -21,12 +21,10 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
    * [Interfaces](#Interfaces)
    * [Block Diagram](#Block-Diagram)
    * [Operating States](#Operating-States)
-   * [AXI Stream Interface Example](#AXI-Stream-Interface-Example)
    * [Functional Verification](#Functional-Verification)
       * [Testbench Files](#Testbench-Files)
-   * [Simulation](#Simulation)
-      * [Vivado Simulator](#Vivado-Simulator)
-      * [Cadence Simulator](#Cadence-Simulator)
+      * [Vivado Simulation](#Vivado-Simulation)
+      * [Cadence Simulation](#Cadence-Simulation)
 <!--te-->
 
 ## Features
@@ -41,6 +39,7 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
 ## Directory Structure
 
     apb2apb_bridge/arch_specs  : Architecture specification directory.
+    apb2apb_bridge/docs        : Documents directory.
     apb2apb_bridge/rtl         : Register Transfer Level source code directory.
     apb2apb_bridge/run_cad     : Cadence simulation directory.
     apb2apb_bridge/run_viv     : Vivado simulation directory.
@@ -132,104 +131,59 @@ All the interfaces connecting the test bench, APB master, APB slave and SRAM mod
     * If **ready** is held LOW by the slave then the peripheral bus remains in the ACCESS state.
     * If **ready** is driven HIGH by the slave then the ACCESS state is exited and the bus returns to the IDLE state if no more transfers are required. Alternatively, the bus moves directly to the SETUP state if another transfer follows.
 
-<img src="https://github.com/amiteee78/RTL_design/blob/5f0e44b7fd6a5500b9f341255827e54cf1384efe/apb2apb_bridge/docs/APB_FSM.png" width="500px">
-
-## AXI Stream Interface Example
-
-transfer with header data
-
-                  __    __    __    __    __    __    __
-    clk        __/  \__/  \__/  \__/  \__/  \__/  \__/  \__
-               ______________                   ___________
-    hdr_ready                \_________________/
-                        _____ 
-    hdr_valid  ________/     \_____________________________
-                        _____
-    hdr_data   XXXXXXXXX_HDR_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-                        ___________ _____ _____
-    tdata      XXXXXXXXX_A0________X_A1__X_A2__XXXXXXXXXXXX
-                        ___________ _____ _____
-    tdata      XXXXXXXXX_A0________X_A1__X_A2__XXXXXXXXXXXX
-                        ___________ _____ _____
-    tkeep      XXXXXXXXX_K0________X_K1__X_K2__XXXXXXXXXXXX
-                        _______________________
-    tvalid     ________/                       \___________
-                              _________________
-    tready     ______________/                 \___________
-                                          _____
-    tlast      __________________________/     \___________
-
-    tuser      ____________________________________________
-
-
-two byte transfer with sink pause after each byte
-
-              __    __    __    __    __    __    __    __    __
-    clk    __/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__
-                    _____ _________________
-    tdata  XXXXXXXXX_D0__X_D1______________XXXXXXXXXXXXXXXXXXXXXXXX
-                    _____ _________________
-    tkeep  XXXXXXXXX_K0__X_K1______________XXXXXXXXXXXXXXXXXXXXXXXX
-                    _______________________
-    tvalid ________/                       \_______________________
-           ______________             _____             ___________
-    tready               \___________/     \___________/
-                          _________________
-    tlast  ______________/                 \_______________________
-
-    tuser  ________________________________________________________
-
-
-two back-to-back packets, no pauses
-
-              __    __    __    __    __    __    __    __    __
-    clk    __/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__/  \__
-                    _____ _____ _____ _____ _____ _____
-    tdata  XXXXXXXXX_A0__X_A1__X_A2__X_B0__X_B1__X_B2__XXXXXXXXXXXX
-                    _____ _____ _____ _____ _____ _____
-    tkeep  XXXXXXXXX_K0__X_K1__X_K2__X_K0__X_K1__X_K2__XXXXXXXXXXXX
-                    ___________________________________
-    tvalid ________/                                   \___________
-           ________________________________________________________
-    tready
-                                _____             _____
-    tlast  ____________________/     \___________/     \___________
-
-    tuser  ________________________________________________________
-
-
-bad frame
-
-              __    __    __    __    __    __
-    clk    __/  \__/  \__/  \__/  \__/  \__/  \__
-                    _____ _____ _____
-    tdata  XXXXXXXXX_A0__X_A1__X_A2__XXXXXXXXXXXX
-                    _____ _____ _____
-    tkeep  XXXXXXXXX_K0__X_K1__X_K2__XXXXXXXXXXXX
-                    _________________
-    tvalid ________/                 \___________
-           ______________________________________
-    tready
-                                _____
-    tlast  ____________________/     \___________
-                                _____
-    tuser  ____________________/     \___________
-
+<img src="https://github.com/amiteee78/RTL_design/blob/5f0e44b7fd6a5500b9f341255827e54cf1384efe/apb2apb_bridge/docs/APB_FSM.png" width="450px">
 
 ## Functional Verification
 
-Running the included testbenches requires MyHDL and Icarus Verilog.  Make sure
-that myhdl.vpi is installed properly for cosimulation to work correctly.  The
-testbenches can be run with a Python test runner like nose or py.test, or the
-individual test scripts can be run with python directly.
+The design is verified using a System Verilog flat testbench. The test cases checked so far are as follows..........
+
+1. Asynchronous Reset Assertion.
+2. Serial single write for fullword & then serial single read for fullword from the same addresses.
+3. Serial single write for halfword & then serial single read for halfword from the same addresses.
+4. Serial single write for byte & then serial single read for byte from the same addresses.
+5. Burst write for fullword & then burst read for fullword from the same addresses.
+6. Burst write for halfword & then burst read for halfword from the same addresses. 
+7. Burst write for byte & then burst read for byte from the same addresses.
+8. Burst write for fullword & then burst read for byte from the same addresses.
 
 ### Testbench Files
 
-    tb/arp_ep.py         : MyHDL ARP frame endpoints
+The test bench file includes all the test cases mentioned above.
 
-## Simulation
+`tb/apb_bridge_tb.sv`
 
-### Vivado Simulator
+### Vivado Simulation
 
+The automated simulation file is developed using shell scripting.
+
+`run_viv/run_viv.sh`
+
+This file includes all the necessary commands to invoke vivado RTL simulator tools in the background without prompting the GUI. In addition, the memory file (.hex) dumped from the test bench is in a jumbled form to observe. To rearrange it, a python file is exploited and sourced at the end of the simulation script. The output from the python source file is another .hex file in which the contents are in a more organized form.
+
+To simulate the design with developed test cases, first the "run_viv" directory should be accessed & then the following command should be executed.
+
+`./run_viv.sh <name of your testbench top module>`
+
+For example, in this case the command must be ....
+
+`./run_viv.sh apb_bridge_tb`
+
+Finally the dumped VCD file can be observed to verify the design functionalities.
 
 ### Cadence Simulation
+
+The automated simulation file is developed using shell scripting.
+
+`run_cad/run_apb.sh`
+
+This file includes all the necessary commands to set up simulation environment. Generation of the directories, coverage analysis file, tcl file for shm database & Continuing the the simulation procedure is controlled by this script.
+
+To simulate the design with developed test cases, first the "run_cad" directory should be accessed & then the following command should be executed in the Cshell.
+
+`./run_apb.sh <name of your testbench top module> <name of your DUT top module>`
+
+For example, in this case the command must be ....
+
+`./run_apb.sh apb_bridge_tb apb_bridge`
+
+Finally the dumped .trn or .vcd file can be observed to verify the design functionalities.
