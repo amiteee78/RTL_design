@@ -1,9 +1,0 @@
-//
-// File created by:  irun
-// Do not modify this file
-//
--INCDIR
-../rtl/
--INCDIR
-../tb/
--sv
