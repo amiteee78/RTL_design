@@ -48,7 +48,7 @@ Being a part of Advanced Microcontroller Bus Architecture (AMBA) family, the Adv
 ## Source Files
 
     rtl/apb_bridge.sv          : APB Bridge Top.
-    rtl/apbif.sv               : APB Interface.
+    rtl/apbintf.sv             : APB & Memory Interfaces.
     rtl/apb_master.sv          : APB Master.
     rtl/apb_mem.sv             : Single Port SRAM.
     rtl/apb_slave.sv           : APB APB bridge.
@@ -81,11 +81,11 @@ All the interfaces connecting the test bench, APB master, APB slave and SRAM mod
 | :------------ | :------------ | :------------ |
 | **clk**  | Clock Source  | Clock. The rising edge of **clk** times all access to the memory.  |
 | **rst_n**  | System bus equivalent  | Reset. The system reset signal is active LOW. This signal is normally connected directly to the system bus reset signal.  |
-| **dsel**  | CPU interface | Data selection. This signal indicates binary data type among **FULLWORD**, **HALFWORD** and **BYTE** for write or read transaction.  |
-| **trnsfr**  | CPU interface | Transfer activation signal. This signal initiates read or write transfer.  |
-| **wr**  | CPU interface | Write/Read selection. This signal illustrates write transfer to be initiated when HIGH and read transfer when LOW.  |
-| **address**  | CPU interface  | Transfer address. This is the address bus which can be upto 32 bits wide and is driven by CPU interface.  |
-| **data_in**  | CPU interface  | Transfer write data input. This is the write data bus driven by CPU interface during write transfer when **wr** is HIGH. This bus can be upto 32 bits wide.  |
+| **dsel**  | APB bridge interface | Data selection. This signal indicates binary data type among **FULLWORD**, **HALFWORD** and **BYTE** for write or read transaction.  |
+| **trnsfr**  | APB bridge interface | Transfer activation signal. This signal initiates read or write transfer.  |
+| **wr**  | APB bridge interface | Write/Read selection. This signal illustrates write transfer to be initiated when HIGH and read transfer when LOW.  |
+| **address**  | APB bridge interface  | Transfer address. This is the address bus which can be upto 32 bits wide and is driven by CPU interface.  |
+| **data_in**  | APB bridge interface  | Transfer write data input. This is the write data bus driven by CPU interface during write transfer when **wr** is HIGH. This bus can be upto 32 bits wide.  |
 | **data_out**  | APB bridge interface | Transfer read data output. This is the read data bus driven by SRAM device during read transfer when **wr** is LOW. This bus can be upto 32 bits wide.  |
 
 **List of interface signals between APB master & APB slave modules (apbif)**
@@ -158,9 +158,9 @@ The automated simulation file is developed using shell scripting.
 
 `run_viv/run_viv.sh`
 
-This file includes all the necessary commands to invoke vivado RTL simulator tools in the background without prompting the GUI. In addition, the memory file (.hex) dumped from the test bench is in a jumbled form to observe. To rearrange it, a python file is exploited and sourced at the end of the simulation script. The output from the python source file is another .hex file in which the contents are in a more organized form.
+This file includes all the necessary commands to invoke vivado RTL simulator tools in the background without prompting the GUI. In addition, the memory file (**ram.hex**) dumped from the test bench is in a jumbled form to observe. To rearrange it, a python file is exploited and sourced at the end of the simulation script. The output from the python source file is **ram_format.hex** which provides the memory contents in a more organized form.
 
-To simulate the design with developed test cases, first the "run_viv" directory should be accessed & then the following command should be executed.
+To simulate the design with developed test cases, first the "**run_viv**" directory should be accessed & then the following command should be executed.
 
 `./run_viv.sh <name of your testbench top module>`
 
@@ -168,7 +168,7 @@ For example, in this case the command must be ....
 
 `./run_viv.sh apb_bridge_tb`
 
-Finally the dumped VCD file can be observed to verify the design functionalities.
+Finally the dumped **apb_bridge_tb.vcd** file can be observed to verify the design functionalities.
 
 ### Cadence Simulation
 
@@ -178,7 +178,7 @@ The automated simulation file is developed using shell scripting.
 
 This file includes all the necessary commands to set up simulation environment. Generation of the directories, coverage analysis file, tcl file for shm database & Continuing the the simulation procedure is controlled by this script.
 
-To simulate the design with developed test cases, first the "run_cad" directory should be accessed & then the following command should be executed in the Cshell.
+To simulate the design with developed test cases, first the "**run_cad**" directory should be accessed & then the following command should be executed in the Cshell.
 
 `./run_apb.sh <name of your testbench top module> <name of your DUT top module>`
 
@@ -186,4 +186,4 @@ For example, in this case the command must be ....
 
 `./run_apb.sh apb_bridge_tb apb_bridge`
 
-Finally the dumped .trn or .vcd file can be observed to verify the design functionalities.
+Finally the dumped **.trn** or **.vcd** file can be observed to verify the design functionalities.

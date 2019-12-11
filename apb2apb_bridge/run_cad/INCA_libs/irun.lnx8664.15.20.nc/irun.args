@@ -12,7 +12,7 @@
 ../arch_specs/
 -sv
 ../rtl/apb_bridge.sv
-../rtl/apbif.sv
+../rtl/apb_intf.sv
 ../rtl/apb_master.sv
 ../rtl/apb_mem.sv
 ../rtl/apb_slave.sv

@@ -2,8 +2,11 @@
 `include "apb_arch.svh"
 
 module apb_slave (apbif.slave sbus);
-  enum logic [1:0] {IDLE, SETUP, ACCESS} s_state, s_nxt_state;
-  logic                   enable_reg;   // used to prevent glitching issue in the next state logic
+
+  logic                     ready_reg;
+  logic                     slverr_reg;
+  logic [`DATA_WIDTH-1:0]   rdata_reg;
+  logic [`DATA_WIDTH-1:0]   rdata_filt_reg;
 
   /*********************************************************/
   /*  ***************************************************  */
@@ -12,95 +15,95 @@ module apb_slave (apbif.slave sbus);
   /*  **                                               **  */
   /*  ***************************************************  */
   /*********************************************************/
-
   always_ff @(posedge sbus.clk or negedge sbus.rst_n) 
   begin
-    if(~sbus.rst_n) 
+    if (~sbus.rst_n)
     begin
-      enable_reg <= '0;
-    end 
-    else if (sbus.enable) 
+      ready_reg        <= '0;
+      slverr_reg       <= '0;
+      rdata_reg        <= '0;
+
+      sbus.mem_wr      <= '0;
+      sbus.mem_rd      <= '0;
+      sbus.mem_be      <= '0;
+      sbus.mem_address <= '0;
+      sbus.mem_data_in <= '0;      
+    end
+    else if ((sbus.addr >= `MEM_SIZE) & sbus.sel)
     begin
-      enable_reg <= '1;
+      if (sbus.enable)
+      begin
+        ready_reg        <= '1;
+        slverr_reg       <= '1;
+        rdata_reg        <= '0;        
+      end
+      else
+      begin
+        ready_reg        <= '0;
+        slverr_reg       <= '0;
+        rdata_reg        <= '0;           
+      end
+
+      sbus.mem_wr      <= '0;
+      sbus.mem_rd      <= '0;
+      sbus.mem_be      <= '0;
+      sbus.mem_address <= '0;
+      sbus.mem_data_in <= '0;
+    end
+    else if (sbus.write & sbus.sel)
+    begin
+      if (sbus.enable)
+      begin
+        ready_reg        <= '1;
+        slverr_reg       <= '0;
+        rdata_reg        <= '0;        
+      end
+      else
+      begin
+        ready_reg        <= '0;
+        slverr_reg       <= '0;
+        rdata_reg        <= '0;           
+      end
+
+      sbus.mem_wr      <= '1;
+      sbus.mem_rd      <= '0;
+      sbus.mem_be      <= sbus.strb;
+      sbus.mem_address <= sbus.addr;
+      sbus.mem_data_in <= sbus.wdata;
+    end
+    else if (~sbus.write & sbus.sel)
+    begin
+      if (sbus.enable)
+      begin
+        ready_reg        <= '1;
+        slverr_reg       <= '0;
+        rdata_reg        <= sbus.mem_data_out & rdata_filt_reg;        
+      end
+      else
+      begin
+        ready_reg        <= '0;
+        slverr_reg       <= '0;
+        rdata_reg        <= '0;           
+      end
+
+      sbus.mem_wr      <= '0;
+      sbus.mem_rd      <= '1;
+      sbus.mem_be      <= '0;
+      sbus.mem_address <= sbus.addr;
+      sbus.mem_data_in <= '0;
     end
     else
     begin
-      enable_reg <= '0;
+      ready_reg        <= '0;
+      slverr_reg       <= '0;
+      rdata_reg        <= '0;
+
+      sbus.mem_wr      <= '0;
+      sbus.mem_rd      <= '0;
+      sbus.mem_be      <= '0;
+      sbus.mem_address <= '0;
+      sbus.mem_data_in <= '0;
     end
-  end
-  /*********************************************************/
-  /*  ***************************************************  */
-  /*  **                                               **  */
-  /*  **           State Register Definition           **  */
-  /*  **                                               **  */
-  /*  ***************************************************  */
-  /*********************************************************/
-  always_ff @(posedge sbus.clk or negedge sbus.rst_n) 
-  begin
-    if(~sbus.rst_n) 
-    begin
-      s_state <= IDLE;
-    end 
-    else 
-    begin
-      s_state <= s_nxt_state;
-    end
-  end
-
-  /*********************************************************/
-  /*  ***************************************************  */
-  /*  **                                               **  */
-  /*  **          Next State Logic Definition          **  */
-  /*  **                                               **  */
-  /*  ***************************************************  */
-  /*********************************************************/
-  always_comb 
-  begin
-
-    unique case (s_state)
-      IDLE :
-      begin
-        if (sbus.sel & ~sbus.enable) // modified to prevent glitching issue in the next state logic
-        begin
-          s_nxt_state = SETUP;
-        end
-        else
-        begin
-          s_nxt_state = IDLE;
-        end
-      end
-
-      SETUP :
-      begin
-        if (sbus.sel & sbus.enable & ~enable_reg) // modified to prevent glitching issue in the next state logic
-        begin
-          s_nxt_state = ACCESS;
-        end
-        else
-        begin
-          s_nxt_state = SETUP;
-        end
-      end
-
-      ACCESS :
-      begin
-        if (sbus.trnsfr)
-        begin
-          s_nxt_state = SETUP;
-        end
-
-        else
-        begin
-          s_nxt_state = IDLE;
-        end
-      end
-
-      default :
-      begin
-        s_nxt_state = IDLE;
-      end
-    endcase
-
   end
 
   /*********************************************************/
@@ -110,123 +113,56 @@ module apb_slave (apbif.slave sbus);
   /*  **                                               **  */
   /*  ***************************************************  */
   /*********************************************************/
-
   always_comb 
   begin
-  
-    unique case (s_state)
-      IDLE :
-      begin
-        sbus.ready       = '0;
-        sbus.slverr      = '0;
-        sbus.rdata       = '0;
+    if (sbus.sel & sbus.enable & ready_reg)
+    begin
+      sbus.ready  = '1;
+    end
+    else
+    begin
+      sbus.ready  = '0;
+    end
 
-        sbus.mem_wr      = '0;
-        sbus.mem_rd      = '0;
-        sbus.mem_be      = '0;
-        sbus.mem_address = '0;
-        sbus.mem_data_in = '0;
-      end
+    if (sbus.sel & sbus.enable & slverr_reg)
+    begin
+      sbus.slverr = '1;
+    end
+    else
+    begin
+      sbus.slverr = '0;
+    end
 
-      SETUP :
-      begin
-        sbus.ready  = '0;
-        sbus.slverr = '0;
-        sbus.rdata  = '0;
-
-        if (sbus.addr >= `MEM_SIZE)
-        begin
-          sbus.mem_wr      = '0;
-          sbus.mem_rd      = '0;
-          sbus.mem_be      = '0;
-          sbus.mem_address = '0;
-          sbus.mem_data_in = '0;          
-        end
-        else if (sbus.write)
-        begin
-          sbus.mem_wr      = '1;
-          sbus.mem_rd      = '0;
-          sbus.mem_be      = sbus.strobe;
-          sbus.mem_address = sbus.addr;
-          sbus.mem_data_in = sbus.wdata;
-        end
-        else
-        begin
-          sbus.mem_wr      = '0;
-          sbus.mem_rd      = '1;
-          sbus.mem_be      = sbus.strobe;
-          sbus.mem_address = sbus.addr;
-          sbus.mem_data_in = '0;
-        end
-      end
-
-      ACCESS :
-      begin
-        if (sbus.sel & sbus.enable)
-        begin
-          sbus.ready  = '1;
-
-          if (sbus.addr >= `MEM_SIZE)
-          begin
-            sbus.slverr      = '1;
-            sbus.rdata       = '0;
-
-            sbus.mem_wr      = '0;
-            sbus.mem_rd      = '0;
-            sbus.mem_be      = '0;
-            sbus.mem_address = '0;
-            sbus.mem_data_in = '0;
-          end
-          else if (sbus.write)
-          begin
-            sbus.slverr      = '0;
-            sbus.rdata       = '0;
-
-            sbus.mem_wr      = '1;
-            sbus.mem_rd      = '0;
-            sbus.mem_be      = sbus.strobe;
-            sbus.mem_address = sbus.addr;
-            sbus.mem_data_in = sbus.wdata;
-          end
-          else
-          begin
-            sbus.slverr      = '0;
-            sbus.rdata       = sbus.mem_data_out;
-
-            sbus.mem_wr      = '0;
-            sbus.mem_rd      = '1;
-            sbus.mem_be      = sbus.strobe;
-            sbus.mem_address = sbus.addr;
-            sbus.mem_data_in = '0;
-          end
-        end
-        else
-        begin
-          sbus.ready       = '0;
-          sbus.slverr      = '0;
-          sbus.rdata       = '0;
-
-          sbus.mem_wr      = '0;
-          sbus.mem_rd      = '0;
-          sbus.mem_be      = '0;
-          sbus.mem_address = '0;
-          sbus.mem_data_in = '0;
-        end
-      end
-
-      default :
-      begin
-        sbus.ready       = '0;
-        sbus.slverr      = '0;
-        sbus.rdata       = '0;
-
-        sbus.mem_wr      = '0;
-        sbus.mem_rd      = '0;
-        sbus.mem_be      = '0;
-        sbus.mem_address = '0;
-        sbus.mem_data_in = '0;
-      end
-    endcase
-
+    if (sbus.sel & sbus.enable)
+    begin
+      sbus.rdata  = rdata_reg;
+    end
+    else
+    begin
+      sbus.rdata  = '0;
+    end
   end
+
+  /*********************************************************/
+  /*  ***************************************************  */
+  /*  **                                               **  */
+  /*  **           STROBE ENCODER FOR RDATA            **  */
+  /*  **                                               **  */
+  /*  ***************************************************  */
+  /*********************************************************/
+  always_comb
+  begin
+    unique case (sbus.strb)
+      `STRB_SIZE'hF : rdata_filt_reg  <= `DATA_WIDTH'hFFFF_FFFF;
+      `STRB_SIZE'h3 : rdata_filt_reg  <= `DATA_WIDTH'h0000_FFFF;
+      `STRB_SIZE'hC : rdata_filt_reg  <= `DATA_WIDTH'hFFFF_0000;
+      `STRB_SIZE'h1 : rdata_filt_reg  <= `DATA_WIDTH'h0000_00FF;
+      `STRB_SIZE'h2 : rdata_filt_reg  <= `DATA_WIDTH'h0000_FF00;
+      `STRB_SIZE'h4 : rdata_filt_reg  <= `DATA_WIDTH'h00FF_0000;
+      `STRB_SIZE'h8 : rdata_filt_reg  <= `DATA_WIDTH'hFF00_0000;
+      `STRB_SIZE'h0 : rdata_filt_reg  <= `DATA_WIDTH'h0000_0000;
+      default       : rdata_filt_reg  <= `DATA_WIDTH'h0000_0000;
+    endcase        
+  end
+
 endmodule

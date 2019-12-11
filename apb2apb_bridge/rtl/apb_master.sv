@@ -1,33 +1,10 @@
 /*
-APB Master Module is designed using Finite State Machine having 3 always block...
+APB Master Module is designed using a Finite State Machine having 3 always block...
   1. A sequential block to define the state register.
   2. A combinational block to define the next state logic.
   3. A combinational block to define the output logic.
 
 Binary encoding is used to define the transitions among three different states.
-
-----------------------------------*********************************************************-------------------------------------
-----------------------------------*  ***************************************************  *-------------------------------------
-----------------------------------*  **                                               **  *-------------------------------------
-----------------------------------*  **                Operating States               **  *-------------------------------------
-----------------------------------*  **                                               **  *-------------------------------------
-----------------------------------*  ***************************************************  *-------------------------------------
-----------------------------------*********************************************************-------------------------------------
-
-
-                 sel=0,en=0                    sel=1,en=0                                     sel=1,en=1                 
-  transfer = 0  ************  transfer = 1   *************                                   ************     ready = 0             
-**----------->> **        ** ------------->> **         ** --------------------------------> **        ** <<-----------**           
-**              **  IDLE  **                 **  SETUP  **                                   ** ACCESS **              ** 
-**------------- **        ** <<----**        **         ** <<---------------------------**-- **        ** -------------**                
-                ************       **        *************    transfer = 1, ready = 1    **  ************                  
-                                   **                                                    **                                            
-                                   **                                                    **
-                                   **                                                    **   
-                                   **                                                    **
-                                   **                                                    **
-                                   **----------------------------------------------------**
-                                                      transfer = 0, ready = 1
 */
 
 `timescale 1ns/1ns
@@ -37,11 +14,10 @@ module apb_master (apbif.master mbus);
 
   enum logic [1:0] {IDLE, SETUP, ACCESS} m_state, m_nxt_state;
 
-  reg      [1:0]              strb_reg;
-  //reg      [`STRB_SIZE-1:0]   strb_reg;
-  reg                         wr_reg;
-  reg      [`ADDR_WIDTH-1:0]  address_reg;
-  reg      [`DATA_WIDTH-1:0]  data_in_reg;
+  logic      [1:0]              strb_reg;
+  logic                         wr_reg;
+  logic      [`ADDR_WIDTH-1:0]  address_reg;
+  logic      [`DATA_WIDTH-1:0]  data_in_reg;
 
   /*********************************************************/
   /*  ***************************************************  */
@@ -61,10 +37,8 @@ module apb_master (apbif.master mbus);
     end 
     else if (mbus.trnsfr)
     begin
-      //strb_reg      <= mbus.strb;
       strb_reg    <= {mbus.address,2'b00} >> mbus.dsel;
       wr_reg      <= mbus.wr;
-      //address_reg   <= mbus.address;
       address_reg <= mbus.address >> mbus.dsel;
       data_in_reg <= mbus.data_in;
     end
@@ -126,13 +100,16 @@ module apb_master (apbif.master mbus);
 
       ACCESS :
       begin
-        if (mbus.ready & mbus.trnsfr)
+        if (mbus.ready)
         begin
-          m_nxt_state = SETUP;
-        end
-        else if (mbus.ready & ~mbus.trnsfr)
-        begin
-          m_nxt_state = IDLE;
+          if (mbus.trnsfr)
+          begin
+            m_nxt_state = SETUP;
+          end
+          else
+          begin
+            m_nxt_state = IDLE;
+          end
         end
         else
         begin
@@ -165,7 +142,7 @@ module apb_master (apbif.master mbus);
         mbus.sel      = '0;
         mbus.enable   = '0;
         mbus.write    = '0;
-        mbus.strobe   = '0;
+        mbus.strb     = '0;
         mbus.addr     = '0;
         mbus.wdata    = '0;
 
@@ -177,7 +154,7 @@ module apb_master (apbif.master mbus);
         mbus.sel      = '1;
         mbus.enable   = '0;
         mbus.addr     = address_reg;
-        mbus.strobe   = '0;
+        mbus.strb     = '0;
         mbus.data_out = '0;
         
         if (wr_reg)
@@ -197,17 +174,17 @@ module apb_master (apbif.master mbus);
         mbus.sel    = '1;
         mbus.enable = '1;
         mbus.addr   = address_reg;
-        //mbus.strobe   <= strb_reg;
+
         // STROBE DECODER
         unique case ({mbus.dsel, strb_reg})
-          `STRB_SIZE'h0 : mbus.strobe = `STRB_SIZE'hF;
-          `STRB_SIZE'h4 : mbus.strobe = `STRB_SIZE'h3;
-          `STRB_SIZE'h6 : mbus.strobe = `STRB_SIZE'hC;
-          `STRB_SIZE'h8 : mbus.strobe = `STRB_SIZE'h1;
-          `STRB_SIZE'h9 : mbus.strobe = `STRB_SIZE'h2;
-          `STRB_SIZE'hA : mbus.strobe = `STRB_SIZE'h4;
-          `STRB_SIZE'hB : mbus.strobe = `STRB_SIZE'h8;
-          default       : mbus.strobe = `STRB_SIZE'h0;
+          `STRB_SIZE'h0 : mbus.strb = `STRB_SIZE'hF;
+          `STRB_SIZE'h4 : mbus.strb = `STRB_SIZE'h3;
+          `STRB_SIZE'h6 : mbus.strb = `STRB_SIZE'hC;
+          `STRB_SIZE'h8 : mbus.strb = `STRB_SIZE'h1;
+          `STRB_SIZE'h9 : mbus.strb = `STRB_SIZE'h2;
+          `STRB_SIZE'hA : mbus.strb = `STRB_SIZE'h4;
+          `STRB_SIZE'hB : mbus.strb = `STRB_SIZE'h8;
+          default       : mbus.strb = `STRB_SIZE'h0;
         endcase
         
         if (wr_reg)
@@ -236,7 +213,7 @@ module apb_master (apbif.master mbus);
         mbus.sel      = '0;
         mbus.enable   = '0;
         mbus.write    = '0;
-        mbus.strobe   = '0;
+        mbus.strb     = '0;
         mbus.addr     = '0;
         mbus.wdata    = '0;
 

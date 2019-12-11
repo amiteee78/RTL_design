@@ -7,7 +7,6 @@ module apb_bridge_tb ();
 
   bit                         clk;   
   bit                         rst_n; 
-  bit   [`STRB_SIZE-1:0]      strb;
   dsel_type                   dsel;  
   bit                         trnsfr;
   // Address & Data Channel (APB Master)

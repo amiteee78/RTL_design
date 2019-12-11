@@ -3,8 +3,7 @@
 interface apbif (
     input   logic                       clk,    // Clock
     input   logic                       rst_n,  // Asynchronous reset active low
-    input   logic [1:0]                 dsel,
-    input   logic [`STRB_SIZE-1:0]      strb,   // selection among byte/half word/word transfer
+    input   logic [1:0]                 dsel,   // selection among byte/half word/word transfer  
     input   logic                       trnsfr, // Continue transfer
 
     // Address & Data Channel (APB Master)
@@ -25,7 +24,7 @@ interface apbif (
   logic                     sel;
   logic                     enable;
   logic                     write;
-  logic [`STRB_SIZE-1:0]    strobe;
+  logic [`STRB_SIZE-1:0]    strb;
   logic [`ADDR_WIDTH-1:0]   addr;
   logic [`DATA_WIDTH-1:0]   wdata;
   logic                     ready;
@@ -43,7 +42,6 @@ interface apbif (
     input    clk,
     input    rst_n,
     input    dsel,
-    input    strb,
     input    trnsfr,
 
     // Address & Data Channel (CPU)
@@ -72,7 +70,6 @@ interface apbif (
     input    clk,    
     input    rst_n,
     input    dsel,
-    input    strb,  
     input    trnsfr,
 
     // Address & Data Channel (CPU)
@@ -85,7 +82,7 @@ interface apbif (
     output   sel,
     output   enable,
     output   write,
-    output   strobe,
+    output   strb,
     output   addr,
     output   wdata,
 
@@ -104,19 +101,21 @@ interface apbif (
   modport slave (
     input    clk,    
     input    rst_n,
-    input    trnsfr,  
+    input    trnsfr,
+
     // Address & Data Channel (Memory)
     output   mem_wr,
     output   mem_rd,
     output   mem_be,
     output   mem_address,
-    output   mem_data_in,  //name should be changed 
-    input    mem_data_out, // name should be changed
+    output   mem_data_in, 
+    input    mem_data_out,
+
     // APB Interface
     input    sel,
     input    enable,
     input    write,
-    input    strobe,
+    input    strb,
     input    addr,
     input    wdata,
 
@@ -129,7 +128,7 @@ endinterface
 
 interface memif (
     input   logic                       clk,
-    input   logic                       rst_n,
+
     // Memory Access
     input   logic                       mem_wr,
     input   logic                       mem_rd,
@@ -148,7 +147,7 @@ interface memif (
   /*********************************************************/
   modport mem (
     input  clk,
-    input  rst_n,
+
     // Memory Access
     input  mem_wr,
     input  mem_rd,
