@@ -23,6 +23,7 @@ module apb_bridge_tb ();
   logic [`DATA_WIDTH-1:0]     mem_data_out;
 
   logic [`DATA_WIDTH-1:0]     read_data_out;
+  logic [`ADDR_WIDTH-1:0]     read_addr_out;
 
   /*********************************************************/
   /*  ***************************************************  */
@@ -250,14 +251,15 @@ module apb_bridge_tb ();
         begin
           repeat(3) @(posedge clk);
           read_data_out <= data_out;
+          read_addr_out <= address_sr + j;
         end
       end
       begin
-        repeat(1) @(posedge clk);
+        repeat(3) @(posedge clk);
         for (int j = 0; j < count; j++)
         begin
           repeat(3) @(posedge clk);
-          $display("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", apb2apb.pmaster.mbus.addr, read_data_out, $realtime(), dsel.name());
+          $display("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", read_addr_out, read_data_out, $realtime()-20, dsel.name());
         end
       end
     join
