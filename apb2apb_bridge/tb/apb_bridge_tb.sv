@@ -22,8 +22,10 @@ module apb_bridge_tb ();
   logic [`DATA_WIDTH-1:0]     mem_data_in;
   logic [`DATA_WIDTH-1:0]     mem_data_out;
 
+  logic [`DATA_WIDTH-1:0]     write_data_in;
+  logic [`ADDR_WIDTH-1:0]     write_addr_in;
   logic [`DATA_WIDTH-1:0]     read_data_out;
-  logic [`ADDR_WIDTH-1:0]     read_addr_out;
+  logic [`ADDR_WIDTH-1:0]     read_addr_in;
 
   /*********************************************************/
   /*  ***************************************************  */
@@ -63,6 +65,7 @@ module apb_bridge_tb ();
   begin
     $monitor("Write Enable:: %b \t Write Adress:: %h \tWrite Data:: %h \t@time %0t ns", test_bus.mem_wr, test_bus.mem_address, test_bus.mem_data_in,  $realtime());    
     $monitor("Read  Enable:: %b \t Read  Adress:: %h \tRead  Data:: %h \t@time %0t ns", test_bus.mem_rd, test_bus.mem_address, test_bus.mem_data_out, $realtime());
+    $strobe("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", address, data_out, $realtime()-1, dsel.name());
   end*/
 
   initial
@@ -158,21 +161,42 @@ module apb_bridge_tb ();
     rst_n   <= '1;    
   endtask : async_reset
 
-  task single_write(input bit [`ADDR_WIDTH-1:0] address_sr, input dsel_type dsel_sw, input bit [`DATA_WIDTH-1:0] data_sr);
+  task single_write(input bit [`ADDR_WIDTH-1:0] address_sw, input dsel_type dsel_sw, input bit [`DATA_WIDTH-1:0] data_sw);
     $display("\n----------------------------------------------------------------------------------------------------------");
     $display("-----------------------------------------------------------------------------------------------------------");
 
-    @(posedge clk);
-    trnsfr  <= '1;
-    wr      <= '1;
-    dsel    <= dsel_sw;
-    address <= address_sr;
-    data_in <= data_sr;
-    @(posedge clk);
-    trnsfr  <= '0;
-    wr      <= '0;
-    repeat(3) @(posedge clk);
-    $display("\nWrite Address:: %h \t Write Data:: %h \t @time %0t ns \t (%s write)", address, data_in, $realtime()-10, dsel.name());        
+    fork
+      begin
+        @(posedge clk);
+        trnsfr  <= '1;
+        wr      <= '1;
+        dsel    <= dsel_sw;
+        address <= address_sw;
+        data_in <= data_sw;
+        @(posedge clk);
+        trnsfr  <= '0;
+        wr      <= '0;
+        repeat(3) @(posedge clk);       
+      end
+      begin
+        wait(apb2apb.pbus.ready);
+        if (mem_wr)
+        begin
+          #5;
+          write_addr_in = address_sw;
+          write_data_in = data_sw;          
+        end
+        wait(~apb2apb.pbus.ready);
+      end
+      begin
+        wait(apb2apb.pbus.ready);
+        wait(~apb2apb.pbus.ready);
+        if (mem_wr)
+        begin
+          $display("\nWrite Address:: %h \t Write Data:: %h \t @time %0t ns \t (%s write)", write_addr_in, write_data_in, $realtime(), dsel.name());
+        end
+      end
+    join
 
     $display("\n----------------------------------------------------------------------------------------------------------");
     $display("-----------------------------------------------------------------------------------------------------------");
@@ -182,21 +206,42 @@ module apb_bridge_tb ();
     $display("\n----------------------------------------------------------------------------------------------------------");
     $display("-----------------------------------------------------------------------------------------------------------");
 
-    @(posedge clk);
-    trnsfr  <= '1;
-    wr      <= '0;
-    dsel    <= dsel_sr;
-    address <= address_sr;
-    @(posedge clk);
-    trnsfr  <= '0;
-    repeat(3) @(posedge clk);
-    $display("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", address, data_out, $realtime()-10, dsel.name());
+    fork
+      begin
+        @(posedge clk);
+        trnsfr  <= '1;
+        wr      <= '0;
+        dsel    <= dsel_sr;
+        address <= address_sr;
+        @(posedge clk);
+        trnsfr  <= '0;
+        repeat(3) @(posedge clk);       
+      end
+      begin
+        wait(apb2apb.pbus.ready);
+        if (mem_rd)
+        begin
+          #5;
+          read_addr_in  = address_sr;
+          read_data_out = data_out;      
+        end
+        wait(~apb2apb.pbus.ready);
+      end
+      begin
+        wait(apb2apb.pbus.ready);
+        wait(~apb2apb.pbus.ready)
+        if (mem_rd)
+        begin
+          $display("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", read_addr_in, read_data_out, $realtime(), dsel.name());
+        end
+      end
+    join
 
     $display("\n----------------------------------------------------------------------------------------------------------");
     $display("----------------------------------------------------------------------------------------------------------\n");  
   endtask : single_read
 
-  task burst_write(input bit [`ADDR_WIDTH-1:0] address_sr, input dsel_type dsel_bw, input bit [`DATA_WIDTH-1:0] data_sr, input int count);
+  task burst_write(input bit [`ADDR_WIDTH-1:0] address_bw, input dsel_type dsel_bw, input bit [`DATA_WIDTH-1:0] data_bw, input int count);
     $display("\n----------------------------------------------------------------------------------------------------------");
     $display("-----------------------------------------------------------------------------------------------------------");
 
@@ -208,18 +253,35 @@ module apb_bridge_tb ();
         dsel    <= dsel_bw;
         for (int i = 0; i < count; i++) 
         begin
-          address <= address_sr + i;
-          data_in <= data_sr + i;
+          address <= address_bw + i;
+          data_in <= data_bw + i;
           repeat(3) @(posedge clk);
         end
         trnsfr  <= '0;        
       end
       begin
-        @(posedge clk);
-        for (int j = 0; j < count; j++)
+        for (int i = 0; i < count; i++) 
         begin
-          repeat(3) @(posedge clk);
-          $display("\nWrite Address:: %h \t Write Data:: %h \t @time %0t ns \t (%s write)", apb2apb.pmaster.mbus.addr, apb2apb.pmaster.mbus.wdata, $realtime(), dsel.name());
+          wait(apb2apb.pbus.ready);
+          if (mem_wr)
+          begin
+            #5;
+            write_addr_in = address_bw + i;
+            write_data_in = data_bw + i;          
+          end
+          wait(~apb2apb.pbus.ready);
+        end
+      end
+      begin   
+        for (int i = 0; i < count; i++)
+        begin
+          wait(apb2apb.pbus.ready);
+          wait(~apb2apb.pbus.ready);
+          if (mem_wr)
+          begin
+            $display("\nWrite Address:: %h \t Write Data:: %h \t @time %0t ns \t (%s write)", write_addr_in, write_data_in, $realtime(), dsel.name());          
+          end
+          @(posedge clk);
         end
       end
     join
@@ -246,20 +308,27 @@ module apb_bridge_tb ();
         trnsfr  <= '0;        
       end
       begin
-        repeat(2) @(posedge clk);
-        for (int j = 0; j < count; j++)
+        for (int i = 0; i < count; i++) 
         begin
-          repeat(3) @(posedge clk);
-          read_data_out <= data_out;
-          read_addr_out <= address_sr + j;
+          wait(apb2apb.pbus.ready);
+          if (mem_rd)
+          begin
+            #5;
+            read_addr_in  = address_sr + i;
+            read_data_out = data_out;          
+          end
+          wait(~apb2apb.pbus.ready);
         end
       end
-      begin
-        repeat(3) @(posedge clk);
-        for (int j = 0; j < count; j++)
+      begin   
+        for (int i = 0; i < count; i++)
         begin
-          repeat(3) @(posedge clk);
-          $display("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", read_addr_out, read_data_out, $realtime()-20, dsel.name());
+          wait(apb2apb.pbus.ready);
+          wait(~apb2apb.pbus.ready);
+          if (mem_rd)
+          begin
+            $display("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", read_addr_in, read_data_out, $realtime(), dsel.name());          
+          end
         end
       end
     join
