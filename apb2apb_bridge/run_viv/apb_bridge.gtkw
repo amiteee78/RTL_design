@@ -1,25 +1,25 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Fri Dec 13 18:47:20 2019
+[*] Sun Dec 15 11:20:49 2019
 [*]
 [dumpfile] "/home/ashuvo/github_repo/RTL_design/apb2apb_bridge/run_viv/apb_bridge_tb.vcd"
-[dumpfile_mtime] "Fri Dec 13 18:42:48 2019"
-[dumpfile_size] 188246
+[dumpfile_mtime] "Sun Dec 15 11:10:17 2019"
+[dumpfile_size] 233315
 [savefile] "/home/ashuvo/github_repo/RTL_design/apb2apb_bridge/run_viv/apb_bridge.gtkw"
 [timestart] 0
-[size] 1366 671
+[size] 1920 1010
 [pos] -1 -1
-*-9.238371 45 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-6.238371 6379 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] apb_bridge_tb.
 [treeopen] apb_bridge_tb.apb2apb.
 [treeopen] apb_bridge_tb.apb2apb.pmaster.
 [treeopen] apb_bridge_tb.apb2apb.pmaster.mbus.
 [treeopen] apb_bridge_tb.apb2apb.pslave.
 [treeopen] apb_bridge_tb.apb2apb.pslave.sbus.
-[sst_width] 233
+[sst_width] 48
 [signals_width] 182
-[sst_expanded] 1
-[sst_vpaned_height] 180
+[sst_expanded] 0
+[sst_vpaned_height] 306
 @28
 apb_bridge_tb.apb2apb.ibus.clk
 apb_bridge_tb.apb2apb.ibus.rst_n
@@ -30,8 +30,6 @@ apb_bridge_tb.apb2apb.ibus.wr
 apb_bridge_tb.apb2apb.ibus.address[31:0]
 apb_bridge_tb.apb2apb.ibus.data_in[31:0]
 apb_bridge_tb.apb2apb.ibus.data_out[31:0]
-@23
-apb_bridge_tb.read_data_out[31:0]
 @200
 -
 @28
@@ -49,6 +47,8 @@ apb_bridge_tb.apb2apb.pslave.slverr_reg
 apb_bridge_tb.apb2apb.pmaster.mbus.master.rdata[31:0]
 @24
 apb_bridge_tb.apb2apb.pmaster.m_state[1:0]
+@201
+-
 @28
 apb_bridge_tb.test_bus.mem_wr
 apb_bridge_tb.test_bus.mem_rd

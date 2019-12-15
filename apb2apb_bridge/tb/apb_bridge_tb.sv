@@ -34,11 +34,11 @@ module apb_bridge_tb ();
   /*  **                                               **  */
   /*  ***************************************************  */
   /*********************************************************/ 
-  apbif test_bus(.*); // Interface Object Creation
+  apbif test_bus(.*); // APB Interface Object Creation
   apb_bridge apb2apb (.ibus(test_bus)); // DUT Connection with Testbench
 
-  memif mem_bus(.*);
-  apb_mem memory (.membus(mem_bus));
+  memif mem_bus(.*);  // Memory Interface Object Creation
+  apb_mem memory (.membus(mem_bus)); // Memory Model Connection with Testbench
 
   /*********************************************************/
   /*  ***************************************************  */
@@ -109,6 +109,7 @@ module apb_bridge_tb ();
     repeat(5) @(posedge clk);
 
     // Slave Error Test
+    /*-------------------------------------------------------------------------------------*/
     for (int i = 0; i < 2; i++) 
     begin
       single_write(`ADDR_WIDTH'h0000_0100 + i, FULLWORD, `DATA_WIDTH'h0102_1034 + i);
@@ -129,6 +130,12 @@ module apb_bridge_tb ();
 
     repeat(5) @(posedge clk);
 
+    burst_write(`ADDR_WIDTH'h0000_0200, FULLWORD, `DATA_WIDTH'hDEAD_BEEF, 8);
+    burst_read(`ADDR_WIDTH'h0000_0530, FULLWORD, 8);
+
+    repeat(5) @(posedge clk);
+    /*-------------------------------------------------------------------------------------*/
+
     burst_write(`ADDR_WIDTH'h0000_00B0, FULLWORD, `DATA_WIDTH'hC0D9_42F0, 8);
     burst_read(`ADDR_WIDTH'h0000_00B0, FULLWORD, 8);
 
@@ -145,7 +152,12 @@ module apb_bridge_tb ();
     repeat(5) @(posedge clk);
 
     burst_write(`ADDR_WIDTH'h0000_0090, FULLWORD, `DATA_WIDTH'hFBED_4C97, 8);
-    burst_read(`ADDR_WIDTH'h0000_0240, BYTE, 32);      
+    burst_read(`ADDR_WIDTH'h0000_0240, BYTE, 32);
+
+    repeat(5) @(posedge clk);
+
+    burst_write(`ADDR_WIDTH'h0000_0070, HALFWORD, `DATA_WIDTH'hA39C_B7E1, 16);
+    burst_read(`ADDR_WIDTH'h0000_0038, FULLWORD, 8);
 
     #20 $finish(1);
   end
@@ -183,8 +195,8 @@ module apb_bridge_tb ();
         if (mem_wr)
         begin
           #5;
-          write_addr_in = address_sw;
-          write_data_in = data_sw;          
+          write_addr_in = mem_bus.mem_address;
+          write_data_in = mem_bus.mem_data_in;          
         end
         wait(~apb2apb.pbus.ready);
       end
@@ -193,7 +205,11 @@ module apb_bridge_tb ();
         wait(~apb2apb.pbus.ready);
         if (mem_wr)
         begin
-          $display("\nWrite Address:: %h \t Write Data:: %h \t @time %0t ns \t (%s write)", write_addr_in, write_data_in, $realtime(), dsel.name());
+          $display("\nMemory Write Address:: %h \t Memory Write Data:: %h \t @time %0t ns \t (%s write)", write_addr_in, write_data_in, $realtime()-10, dsel.name());
+        end
+        else
+        begin
+          $display("\nError response for %s write transaction. Memory address %h is inaccessible \t @time %0t ns", dsel.name(), address, $realtime()-10);
         end
       end
     join
@@ -222,7 +238,7 @@ module apb_bridge_tb ();
         if (mem_rd)
         begin
           #5;
-          read_addr_in  = address_sr;
+          read_addr_in  = mem_bus.mem_address;
           read_data_out = data_out;      
         end
         wait(~apb2apb.pbus.ready);
@@ -232,7 +248,11 @@ module apb_bridge_tb ();
         wait(~apb2apb.pbus.ready)
         if (mem_rd)
         begin
-          $display("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", read_addr_in, read_data_out, $realtime(), dsel.name());
+          $display("\nMemory Read Address :: %h \t Memory Read Data :: %h \t @time %0t ns \t (%s read)", read_addr_in, read_data_out, $realtime()-10, dsel.name());
+        end
+        else
+        begin
+          $display("\nError response for %s read transaction. Memory address %h is inaccessible \t @time %0t ns", dsel.name(), address, $realtime()-10);
         end
       end
     join
@@ -266,8 +286,8 @@ module apb_bridge_tb ();
           if (mem_wr)
           begin
             #5;
-            write_addr_in = address_bw + i;
-            write_data_in = data_bw + i;          
+            write_addr_in = mem_bus.mem_address;
+            write_data_in = mem_bus.mem_data_in;          
           end
           wait(~apb2apb.pbus.ready);
         end
@@ -279,9 +299,12 @@ module apb_bridge_tb ();
           wait(~apb2apb.pbus.ready);
           if (mem_wr)
           begin
-            $display("\nWrite Address:: %h \t Write Data:: %h \t @time %0t ns \t (%s write)", write_addr_in, write_data_in, $realtime(), dsel.name());          
+            $display("\nMemory Write Address:: %h \t Memory Write Data:: %h \t @time %0t ns \t (%s write)", write_addr_in, write_data_in, $realtime()-10, dsel.name());          
           end
-          @(posedge clk);
+          else
+          begin
+            $display("\nError response for %s write transaction. Memory address %h is inaccessible \t @time %0t ns", dsel.name(), address, $realtime()-10);
+          end
         end
       end
     join
@@ -314,7 +337,7 @@ module apb_bridge_tb ();
           if (mem_rd)
           begin
             #5;
-            read_addr_in  = address_sr + i;
+            read_addr_in  = mem_bus.mem_address;
             read_data_out = data_out;          
           end
           wait(~apb2apb.pbus.ready);
@@ -327,7 +350,11 @@ module apb_bridge_tb ();
           wait(~apb2apb.pbus.ready);
           if (mem_rd)
           begin
-            $display("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", read_addr_in, read_data_out, $realtime(), dsel.name());          
+            $display("\nMemory Read Address :: %h \t Memory Read Data :: %h \t @time %0t ns \t (%s read)", read_addr_in, read_data_out, $realtime()-10, dsel.name());          
+          end
+          else
+          begin
+            $display("\nError response for %s read transaction. Memory address %h is inaccessible \t @time %0t ns", dsel.name(), address, $realtime()-10);
           end
         end
       end

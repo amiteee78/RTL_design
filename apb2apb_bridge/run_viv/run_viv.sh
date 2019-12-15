@@ -1,3 +1,4 @@
+reset
 #Reading RTL files
 xvlog --work $1_lib --sv ../rtl/*.sv ../tb/$1.sv -i ../arch_specs/ --nolog
 
