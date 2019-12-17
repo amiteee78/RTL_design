@@ -1,3 +1,25 @@
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Company        : Neural Semiconductor
+// Author         : Amit Mazumder Shuvo
+// Designation    : Senior Design Engineer
+// Email          : amiteee78@gmail.com
+// 
+// Create Date    : 17/12/2019 11:08:30 AM
+// Design Name    : apb_bridge
+// Module Name    : apb_bridge
+// Project Name   : APB2APB Bridge
+// Tool Versions  : Vivado v2019.1.1 (64-bit)
+// Description    :
+// 
+//                  The purpose of this module is to provide interconnection between APB Master & APB Slave.
+//                  A master module & a slave module are created with proper interfacing from apbif module.
+//
+// Revision       : 1.0 - Initially verified
+// Comments       : Extensible Features need to be incorporated.
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 `timescale 1ns/1ns
 `include "apb_arch.svh"
 

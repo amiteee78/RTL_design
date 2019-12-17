@@ -145,6 +145,7 @@ The design is verified using a System Verilog flat testbench. The test cases che
 6. Burst write for halfword & then burst read for halfword from the same addresses. 
 7. Burst write for byte & then burst read for byte from the same addresses.
 8. Burst write for fullword & then burst read for byte from the same addresses.
+9. Burst read for fullword & then burst write for byte from the same addresses.
 
 ### Testbench Files
 
@@ -176,7 +177,7 @@ The automated simulation file is developed using shell scripting.
 
 `run_cad/run_apb.sh`
 
-This file includes all the necessary commands to set up simulation environment. Generation of the directories, coverage analysis file, tcl file for shm database & Continuing the the simulation procedure is controlled by this script.
+This file includes all the necessary commands to set up simulation environment. Generation of the directories, coverage analysis file, tcl file for shm database & Continuing the simulation procedure is controlled by this script.
 
 To simulate the design with developed test cases, first the "**run_cad**" directory should be accessed & then the following command should be executed in the Cshell.
 

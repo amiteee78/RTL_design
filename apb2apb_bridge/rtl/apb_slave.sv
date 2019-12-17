@@ -1,3 +1,26 @@
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Company        : Neural Semiconductor
+// Author         : Amit Mazumder Shuvo
+// Designation    : Senior Design Engineer
+// Email          : amiteee78@gmail.com
+// 
+// Create Date    : 17/12/2019 11:08:30 AM
+// Design Name    : apb_slave
+// Module Name    : apb_slave
+// Project Name   : APB2APB Bridge
+// Tool Versions  : Vivado v2019.1.1 (64-bit)
+// Description    : 
+// 
+// apb_slave receives necessary signals from CPU end to access the memory according to the APB transaction protocol.
+// Internal registers define necessary signals to complete sucessful read or write transfers.
+// A strobe decoder is utilized to filter out read data from memory during FULLWORD, HALFWORD or BYTE read transaction.
+// 
+// Revision       : 1.0 - Initially verified
+// Comments       : Extensible Features need to be incorporated.
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 `timescale 1ns/1ns
 `include "apb_arch.svh"
 
@@ -146,7 +169,7 @@ module apb_slave (apbif.slave sbus);
   /*********************************************************/
   /*  ***************************************************  */
   /*  **                                               **  */
-  /*  **           STROBE ENCODER FOR RDATA            **  */
+  /*  **           STROBE DECODER FOR RDATA            **  */
   /*  **                                               **  */
   /*  ***************************************************  */
   /*********************************************************/

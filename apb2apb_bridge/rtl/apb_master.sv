@@ -1,11 +1,30 @@
-/*
-APB Master Module is designed using a Finite State Machine having 3 always block...
-  1. A sequential block to define the state register.
-  2. A combinational block to define the next state logic.
-  3. A combinational block to define the output logic.
-
-Binary encoding is used to define the transitions among three different states.
-*/
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Company        : Neural Semiconductor
+// Author         : Amit Mazumder Shuvo
+// Designation    : Senior Design Engineer
+// Email          : amiteee78@gmail.com
+// 
+// Create Date    : 17/12/2019 11:08:30 AM
+// Design Name    : apb_master
+// Module Name    : apb_master
+// Project Name   : APB2APB Bridge
+// Tool Versions  : Vivado v2019.1.1 (64-bit)
+// Description    : 
+// 
+// apb_master drives necessary signals from CPU end to run the slaves according to the APB transaction protocol.
+// apb_master module is designed using a Finite State Machine having 3 always block...
+//   1. A sequential block to define the state register.
+//   2. A combinational block to define the next state logic.
+//   3. A combinational block to define the output logic.
+// The FSM of the master module controls the three operating states (IDLE, SETUP & ACCESS) of APB protocol.
+// Binary encoding is used to define the transitions among three different states.
+// A strobe encoder is utilized to enable memory bytes accrodingly during FULLWORD, HALFWORD or BYTE write transaction.
+// 
+// Revision       : 1.0 - Initially verified
+// Comments       : Extensible Features need to be incorporated.
+// 
+//////////////////////////////////////////////////////////////////////////////////
 
 `timescale 1ns/1ns
 `include "apb_arch.svh"
@@ -175,7 +194,7 @@ module apb_master (apbif.master mbus);
         mbus.enable = '1;
         mbus.addr   = address_reg;
 
-        // STROBE DECODER
+        // STROBE ENCODER
         unique case ({mbus.dsel, strb_reg})
           `STRB_SIZE'h0 : mbus.strb = `STRB_SIZE'hF;
           `STRB_SIZE'h4 : mbus.strb = `STRB_SIZE'h3;

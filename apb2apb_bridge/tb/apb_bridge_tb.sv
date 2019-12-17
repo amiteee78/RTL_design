@@ -1,3 +1,29 @@
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Company        : Neural Semiconductor
+// Author         : Amit Mazumder Shuvo
+// Designation    : Senior Design Engineer
+// Email          : amiteee78@gmail.com
+// 
+// Create Date    : 17/12/2019 11:08:30 AM
+// Design Name    : apb_bridge_tb
+// Module Name    : apb_bridge_tb
+// Project Name   : APB2APB Bridge
+// Tool Versions  : Vivado v2019.1.1 (64-bit)
+// Description    : 
+// 
+// apb_bridge_tb is the test bench for verifying the APB2APB Bridge design developed in the flat approach. 
+// This test bench top module instantiates apb_bridge & apb_mem modules as well as interconnects them for functional simulation.
+// Five tasks (asynch_reset, single_write, single_read, burst_write and burst_read) are defined so far to test the desired functionalities of APB protocol.
+// 10 ns (100 MHz Frequency) of clock period is set for simulation purpose.
+// A memory file (ram.hex) is created to observe the desired change of the memory for free tool simulation.
+// 'apb_bridge_tb.vcd' file is dumped to observe the waves.
+// 
+// Revision       : 1.0 - Initially verified
+// Comments       : Extensible Features need to be incorporated.
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 `timescale 1ns/1ns
 `include "apb_arch.svh"
 
@@ -60,13 +86,6 @@ module apb_bridge_tb ();
     $dumpfile("apb_bridge_tb.vcd");
     $dumpvars(0);
   end
-
-/*  initial
-  begin
-    $monitor("Write Enable:: %b \t Write Adress:: %h \tWrite Data:: %h \t@time %0t ns", test_bus.mem_wr, test_bus.mem_address, test_bus.mem_data_in,  $realtime());    
-    $monitor("Read  Enable:: %b \t Read  Adress:: %h \tRead  Data:: %h \t@time %0t ns", test_bus.mem_rd, test_bus.mem_address, test_bus.mem_data_out, $realtime());
-    $strobe("\nRead Address :: %h \t Read Data :: %h \t @time %0t ns \t (%s read)", address, data_out, $realtime()-1, dsel.name());
-  end*/
 
   initial
   begin

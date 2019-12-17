@@ -1,10 +1,34 @@
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Company        : Neural Semiconductor
+// Author         : Amit Mazumder Shuvo
+// Designation    : Senior Design Engineer
+// Email          : amiteee78@gmail.com
+// 
+// Create Date    : 17/12/2019 11:08:30 AM
+// Design Name    : apb_mem
+// Module Name    : apb_mem
+// Project Name   : APB2APB Bridge
+// Tool Versions  : Vivado v2019.1.1 (64-bit)
+// Description    : 
+// 
+// apb_mem module is a System Verilog Behavioral Model of a dual port SRAM (individual read & write channel).
+// The size of the memory can be changed by modifying the 'MEM_SIZE' macro defined in 'apb_arch.svh' file.
+// In the initial functional simulation, 1KB of SRAM is used for FULLWORD, HALFWORD & BYTE access.
+// mem_be input port controls which memory bytes are allowed to access & which are not.
+// 
+// Revision       : 1.0 - Initially verified
+// Comments       : Extensible Features need to be incorporated.
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 `timescale 1ns/1ns
 `include "apb_arch.svh"
 
 module apb_mem (memif.mem membus);
 
   genvar k,m;
-  reg   [`MEM_WIDTH-1:0]  ram [`MEM_DEPTH-1:0] [0:`MEM_SIZE-1];
+  logic  [`MEM_WIDTH-1:0]  ram [`MEM_DEPTH-1:0] [0:`MEM_SIZE-1];
 
   /*********************************************************/
   /*  ***************************************************  */

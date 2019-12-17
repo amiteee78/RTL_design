@@ -1,3 +1,26 @@
+//////////////////////////////////////////////////////////////////////////////////
+//
+// Company        : Neural Semiconductor
+// Author         : Amit Mazumder Shuvo
+// Designation    : Senior Design Engineer
+// Email          : amiteee78@gmail.com
+// 
+// Create Date    : 17/12/2019 11:08:30 AM
+// Design Name    : apb_intf
+// Module Name    : apbif, memif
+// Project Name   : APB2APB Bridge
+// Tool Versions  : Vivado v2019.1.1 (64-bit)
+// Description    : 
+// 
+// Two individual interfaces (apbif, memif) are defined in this design.
+// apbif interface provides necessary interface I/O, protocol signlas & modports for test bench, apb_bridge, apb_master, apb_slave & apb_mem modules.
+// memif interface provides necessary interface I/O, signals & modports for test bench & apb_mem module.
+// 
+// Revision       : 1.0 - Initially verified
+// Comments       : Extensible Features need to be incorporated.
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
 `include "apb_arch.svh"
 
 interface apbif (
