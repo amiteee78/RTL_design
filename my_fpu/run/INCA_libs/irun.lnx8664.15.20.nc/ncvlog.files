@@ -1,0 +1,15 @@
+//
+// File created by:  irun
+// Do not modify this file
+//
+/home/ashuvo/amit/fpu/rtl_new/fadd_sub.v
+/home/ashuvo/amit/fpu/rtl_new/faxi_slv_lte.v
+/home/ashuvo/amit/fpu/rtl_new/fcast.v
+/home/ashuvo/amit/fpu/rtl_new/fcomp.v
+/home/ashuvo/amit/fpu/rtl_new/fmul_div.v
+/home/ashuvo/amit/fpu/rtl_new/fpu_control.v
+/home/ashuvo/amit/fpu/rtl_new/fpu_dec.v
+/home/ashuvo/amit/fpu/rtl_new/fpu_enc.v
+/home/ashuvo/amit/fpu/rtl_new/fpu_top.v
+/home/ashuvo/amit/fpu/rtl_new/fround.v
+/home/ashuvo/amit/fpu/tb/fpu_top_tb_new.sv

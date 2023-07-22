@@ -1,0 +1,145 @@
+
+#
+# Mnemonic Maps
+#
+mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fpu_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fpu_rst_n}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_en_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_sel_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_sign1_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_exp1_i[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_scfnd1_i[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_sign2_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_exp2_i[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_scfnd2_i[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fdiv_rem[53:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fdiv_res[25:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmul_res[47:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.is_res_zero}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.is1_denorm}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.is1_norm}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.is2_denorm}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.is2_norm}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.sfcnd1[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.sfcnd2[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {signed(fmul_div_tb.mult_divdr.expnt1)}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {signed(fmul_div_tb.mult_divdr.expnt2)}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.frac_shift1[4:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.frac_shift2[4:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_next_state[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.sftd_multplr[24:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.is_neg_unb_exp}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.dfrac_shift[4:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.is_res_denorm}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.is_neg_exp_ovf}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_sign_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_exp_o[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_frac_o[22:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_grs_bit_o[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_ready_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.muldiv_count[4:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fmul_div_tb.mult_divdr.fmuldiv_exp_ovf_o}]}
+	} ]]
+
+waveform xview limits 4937ns 5665ns

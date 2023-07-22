@@ -1,0 +1,74 @@
+
+#
+# Mnemonic Maps
+#
+mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_rst_n}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_enc_en_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_round_mode_i[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_out_type_i[4:0]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.enc_flag[4:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.enc_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.enc_next_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.sign_mxd}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.rounded_exp[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.rounded_frac[22:0]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_enc_ready_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_enc_nanf_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_enc_inf_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_enc_ovf_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_enc_uf_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_enc_zf_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fpu_result_o[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_enc_tb.encoder.fround_zero_i}]}
+	} ]]
+
+waveform xview limits 0 425ns

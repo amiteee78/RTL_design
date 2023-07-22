@@ -1,0 +1,82 @@
+
+#
+# Mnemonic Maps
+#
+mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.aclk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.arst_n}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.awvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.wvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.awaddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.awready}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.wdata[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.wstrb[3:0]}]}
+	} ]]
+waveform hierarchy collapse $id
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.wready}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.bvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.bready}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.bresp[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.axi_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.mem[-65536:-65529]}]}
+	} ]]
+waveform hierarchy expand $id
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.arvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.araddr[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.arready}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.rvalid}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.rready}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.rdata[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {axi_slave_tb.axi_slv_lt.rresp[1:0]}]}
+	} ]]
+
+waveform xview limits 0 2465ns

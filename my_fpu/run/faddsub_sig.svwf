@@ -1,0 +1,135 @@
+
+#
+# Mnemonic Maps
+#
+mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.fpu_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.fpu_rst_n}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_en_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_sel_i}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_sign1_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_exp1_i[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_scfnd1_i[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_sign2_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_exp2_i[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_scfnd2_i[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_next_state[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_ready_o}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.ext_sgnfcnd1[27:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.ext_sgnfcnd2[27:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.exp_diff[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.frac_shift[4:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.addsub_reg1[27:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.addsub_reg2[27:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.addsub_abs[27:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.addsub_sign}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.addsub_sign_reg}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.biased_exp[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.exp_inc[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.exp_adjst[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.add_or_sub[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.is_addsub_zero}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.addsub_ext_bit}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.exp_scale[4:0]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_sign_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_exp_o[7:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_frac_o[22:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fadd_sub_tb.adder.faddsub_grs_bit_o[2:0]}]}
+	} ]]
+waveform format $id -radix %b
+
+waveform xview limits 370ns 482ns

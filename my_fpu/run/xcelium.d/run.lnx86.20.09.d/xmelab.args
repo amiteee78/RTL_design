@@ -1,0 +1,28 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-ACCESS
++rwc
++FSMDEBUG
+-DISABLE_SEM2009
+-timescale
+1ns/1ns
+-COVFILE
+coverage/fpu_top_cov.ccf
+-COVERAGE
+A
+-COVDUT
+fpu_top_tb_new
+-NOCOPYRIGHT
+-MESSAGES
+-XLMODE
+./xcelium.d/run.lnx86.20.09.d
+-RUNMODE
+-CDSLIB
+./xcelium.d/run.lnx86.20.09.d/cds.lib
+-HDLVAR
+./xcelium.d/run.lnx86.20.09.d/hdl.var
+-WORK
+worklib
+-HASXLMODE

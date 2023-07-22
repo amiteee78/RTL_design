@@ -1,0 +1,33 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-XLMODE
+./xcelium.d/run.lnx86.20.09.d
+-RUNMODE
+-INCDIR
+../rtl/
+-INCDIR
+../tb/
+-sv
+../rtl_new/fadd_sub.v
+../rtl_new/faxi_slv_lte.v
+../rtl_new/fcast.v
+../rtl_new/fcomp.v
+../rtl_new/fmul_div.v
+../rtl_new/fpu_control.v
+../rtl_new/fpu_dec.v
+../rtl_new/fpu_enc.v
+../rtl_new/fpu_top.v
+../rtl_new/fround.v
+../tb/fpu_top_tb_new.sv
+-NOCOPYRIGHT
+-CDSLIB
+./xcelium.d/run.lnx86.20.09.d/cdsrun.lib
+-HDLVAR
+./xcelium.d/run.lnx86.20.09.d/hdlrun.var
+-MESSAGES
+-UPDATE
+-XLLIBSTORE
+./xcelium.d/run.lnx86.20.09.d/xllibs
+-ALLOWUNBOUND

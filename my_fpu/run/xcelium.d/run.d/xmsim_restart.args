@@ -1,0 +1,29 @@
+//
+// File created by:  xrun
+// Do not modify this file
+//
+-INPUT
+script/fpu_top_tb_new.tcl
+-COVOVERWRITE
+-COVTEST
+fpu_top_tb_new_test
+-NOCOPYRIGHT
+-MESSAGES
++EMGRLOG
+xrun.log
+-XLSTIME
+1655187243
+-XLKEEP
+-XLMODE
+./xcelium.d/run.lnx86.20.09.d
+-RUNMODE
+-CDSLIB
+./xcelium.d/run.lnx86.20.09.d/cds.lib
+-HDLVAR
+./xcelium.d/run.lnx86.20.09.d/hdl.var
+-XLNAME
+xrun
+-XLVERSION
+"TOOL:	xrun	20.09-s012"
+-XLNAME
+./xcelium.d/run.lnx86.20.09.d/ece-fics-eda_30616

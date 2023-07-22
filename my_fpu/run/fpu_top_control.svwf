@@ -1,0 +1,122 @@
+
+#
+# Mnemonic Maps
+#
+mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -label Control_Unit -comment {}]
+waveform format $id -namecolor #ff9900 -bgcolor #ffffff
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.control_unit.fpu_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.control_unit.fpu_rst_n}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.control_unit.fpu_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.control_unit.fpu_op_i[6:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.control_unit.fpu_dec_en_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.control_unit.fpu_enc_en_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.control_unit.fpu_dec_ready_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.control_unit.fpu_enc_ready_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.control_unit.fpu_mod_en_o[6:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -cdivider divider]
+set id [waveform add -label Decoder_Unit -comment {}]
+waveform format $id -namecolor #ff9900 -bgcolor #ffffff
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_dec_en_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_opcode_i[4:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_operand1_i[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_operand2_i[31:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_op_o[6:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_res_type_o[4:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_dec_sign1_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_dec_exp1_o[7:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_dec_sfgnd1_o[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_dec_sign2_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_dec_exp2_o[7:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_dec_sfgnd2_o[23:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.dec_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.dec_next_state[1:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.decode_unit.fpu_dec_ready_o}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -label Encoder_Unit -comment {}]
+waveform format $id -namecolor #ff9900 -bgcolor #ffffff
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.encoder_unit.fpu_enc_en_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.encoder_unit.fpu_round_mode_i[2:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.encoder_unit.fpu_out_type_i[4:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.encoder_unit.fpu_enc_ready_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.encoder_unit.enc_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fpu_top_tb.top.encoder_unit.enc_next_state}]}
+	} ]]
+
+waveform xview limits 0 345ns

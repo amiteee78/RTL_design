@@ -1,0 +1,79 @@
+
+#
+# Mnemonic Maps
+#
+mmap new -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+array unset createdGroup
+array set createdGroup {}
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fpu_clk}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fpu_rst_n}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fround_en_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fround_sign_i}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fround_exp_i[7:0]}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fround_frac_i[22:0]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.is_num_lte_half}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.is_num_in_fr_lmt}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.is_num_bynd_fr_lmt}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.is_num_out_of_lmt}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.rounded_int[31:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.rounded_frac[22:0]}]}
+	} ]]
+waveform format $id -radix %b
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.shift[4:0]}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fround_state}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fround_next_state[1:0]}]}
+	} ]]
+set id [waveform add -cdivider divider]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fround_ready_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {signed(fround_tb.rounder.fround_int_o)}]}
+	} ]]
+waveform format $id -radix %d
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fround_zero_o}]}
+	} ]]
+set id [waveform add -signals [subst  {
+	{[format {fround_tb.rounder.fround_overflow_o}]}
+	} ]]
+
+waveform xview limits 0 655ns

@@ -14,3 +14,8 @@
 - Verilog for Design.
 - System Verilog for Verification.
 - Vivado Simulator.
+
+### *32-bit Single Precision Floating Point Unit*
+- Verilog for Design.
+- System Verilog for Verification.
+- Vivado Simulator.

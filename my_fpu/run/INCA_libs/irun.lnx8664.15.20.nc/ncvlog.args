@@ -1,0 +1,33 @@
+//
+// File created by:  irun
+// Do not modify this file
+//
+-XLMODE
+./INCA_libs/irun.lnx8664.15.20.nc
+-RUNMODE
+-INCDIR
+../rtl/
+-INCDIR
+../tb/
+-sv
+../rtl_new/fadd_sub.v
+../rtl_new/faxi_slv_lte.v
+../rtl_new/fcast.v
+../rtl_new/fcomp.v
+../rtl_new/fmul_div.v
+../rtl_new/fpu_control.v
+../rtl_new/fpu_dec.v
+../rtl_new/fpu_enc.v
+../rtl_new/fpu_top.v
+../rtl_new/fround.v
+../tb/fpu_top_tb_new.sv
+-NOCOPYRIGHT
+-CDSLIB
+./INCA_libs/irun.lnx8664.15.20.nc/cdsrun.lib
+-HDLVAR
+./INCA_libs/irun.lnx8664.15.20.nc/hdlrun.var
+-MESSAGES
+-UPDATE
+-XLLIBSTORE
+./INCA_libs/irun.lnx8664.15.20.nc/xllibs
+-ALLOWUNBOUND

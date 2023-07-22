@@ -1,0 +1,13 @@
+//
+// File created by:  irun
+// Do not modify this file
+//
+-INPUT
+script/fpu_top_tb_new.tcl
+-COVERAGE
+A
+-COVOVERWRITE
+-COVTEST
+fpu_top_tb_new_test
+-NOCOPYRIGHT
+-MESSAGES
